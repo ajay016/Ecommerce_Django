@@ -1,0 +1,262 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% comment %} <div class="row">
+        <div class="col-md-12 col-lg-8 col-11 mx-auto">
+            <div class="box-element" id="form-wrapper">
+                <form id="from">
+                    <div class="user-info">
+                        <div class="form-field">
+                            <input required class="form-control" type="text" name="name" placeholder="Name">
+                        </div>
+
+                        <div class="form-field">
+                            <input required class="form-control" type="text" name="email" placeholder="Email">
+                        </div>
+                    </div>
+
+                    <div class="shipping-info">
+                        <p>Shipping Information:</p>
+                        <hr>
+                        <div class="form-field">
+                            <input class="form-control" type="text" name="address" placeholder="Address">
+                        </div>
+
+                        <div class="form-field">
+                            <input class="form-control" type="text" name="city" placeholder="City">
+                        </div>
+
+                        <div class="form-field">
+                            <input class="form-control" type="text" name="state" placeholder="State">
+                        </div>
+
+                        <div class="form-field">
+                            <input class="form-control" type="text" name="zipcode" placeholder="Zip Code">
+                        </div>
+
+                        <div class="form-field">
+                            <input class="form-control" type="text" name="country" placeholder="Country">
+                        </div>
+
+                    </div>
+                    <hr>
+
+                    <input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+                </form>
+            </div>
+            <br>
+
+            <div class="box-element hidden" id="payment-info">
+                <small>Payment Options</small>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-lg-4 col-11 mx-auto">
+            <div class="box-element">
+                <a class="btn btn-outline-dark" href="{% url 'cart1' %}">&#8592; Back to Cart</a>
+                <hr>
+                <h3>Order Summary</h3>
+                <hr>
+
+                <div class="cart-row">
+                    <div style="flex:2" >
+                        <img class="row-image" src="{% static 'images/placeholder.png' %}">
+                    </div>
+                    <div style="flex:2">Product 1</div>
+                    <div style="flex:2">$20.00</div>
+                    <div style="flex:2">x2</div>
+                </div>
+
+                <h5>Item: 2</h5>
+                <h5>Total: $40</h5>
+
+            </div>
+        </div>
+    </div> {% endcomment %}
+
+    <div class="container px-5">
+
+        <div class="row mb-2">
+
+            <div class="col-md-12 col-12 mx-auto">
+                <div class="row gx-3">
+                    <!--left side div-->
+                    <div class="col-md-12 col-lg-8 col-11 mx-auto main_cart mb-lg-0 mb-5">
+
+                        <div class="card p-3 shadow">
+                            <h2 class="pb-3 font-weight-bold">Cart ({{ order.get_cart_items }} item{{ order.get_cart_items|pluralize }})</h2>
+                            
+                            <!--for loop starts-->
+                            {% for item in items %}
+                            <hr>
+                            <div class="row mb-2 px-3">
+                                <div class="col-md-3 col-lg-3 col-11 mx-auto bg-light d-flex justify-content-center align-items-center product_img px-0 mt-1 mb-2">
+                                    <a href="#"><img src="{{ item.product.imageURL }}" class="cart-thumbnail"  alt=""></a>
+                                </div>
+
+                                <!--cart product details-->
+                                <div class="col-md-9 col-lg-9 col-11 mx-auto mt-1 pe-0">
+                                    <div class="row">
+                                        <!--product name-->
+                                        <div class="row pe-1">
+                                            <div class="col-lg-6 col-12 mt-0">
+                                                <p class="mb-0">Unit Price: <strong>${{item.product.price}}</strong></p>
+                                            </div>
+
+                                            <!--Quantity button-->
+                                            <div class="col-lg-6 col-12 input-group custom-input-group input-group-sm my-1 pe-0">
+                                                <button class="input-group-text quantity-button"><i class="fa-solid fa-minus"></i></button>                                               
+                                                <input type="text" class="form-control quantity-button text-center" value="{{item.quantity}}">
+                                                <button class="input-group-text quantity-button"><i class="fa-solid fa-plus"></i></button>
+                                            </div>
+                                            <!--Quantity button-->
+
+                                        </div>
+                                        <div class="col-lg-9 col-12 cart-title">
+                                            <a href="#" class="cart-product-name"><h6 class="mb-2">{{ item.product.name }}</h6></a>
+                                            <p class="cart-item-description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, deserunt iure. Beatae, repellendus sunt eveniet voluptatibus voluptates ea illum commodi qui autem laborum. Asperiores illo error aliquid reiciendis placeat? Similique?</p>
+                                        </div>
+
+                                        <div class="col-lg-3 col-12">
+                                           
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                                <div class="row mt-2 px-0 mx-2">
+                                    <div class="col-8 d-flex justify-content-between remove-wish px-0 mx">
+                                        <p class="cart-remove"><i class="fa-solid fa-trash fa-xl me-1"></i>Remove Item</p>
+                                        <p class="cart-remove"><i class="fa-solid fa-heart fa-xl me-1"></i>Add to Wishlist</p>
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end price-money pe-0">
+                                        <h5 class="fw-bold pe-3"><span id="itemval">${{ item.get_total|floatformat:2 }}</span></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--for loop ends-->
+                            {% endfor %}
+
+
+                        </div>
+
+                        
+
+                        
+
+
+                    </div>
+                    <!--left side div ends-->
+
+                    <!--right side div starts-->
+                    
+                    <div class="col-md-12 col-lg-4 col-11 mx-auto">
+
+                        <div class="right-side p-3 shadow bg-white mb-3">
+                            <h4 class="product_name mb-3">Order Summary</h4>
+                            <hr>
+                            <div class="col-lg-12 product_indiv d-flex justify-content-between">
+                                <p class="mb-1">Subtotal ({{ order.get_cart_items }} item{{ order.get_cart_items|pluralize }})</p>
+                                <p class="mb-1">$<span>{{order.get_cart_total|floatformat:2}}</span></p>
+                            </div>
+
+                            <div class="col-lg-12 product_indiv d-flex justify-content-between">
+                                <p>Shipping Cost</p>
+                                <p>$<span>25444.99</span></p>
+                                
+                            </div>
+                        
+                            <hr>
+
+                            <div class="col-lg-12 product_indiv d-flex justify-content-between fw-bold fs-5">
+                                <p>Total Cost</p>
+                                <p>$<span id="total_cart_amt">20000.99</span></p>
+                            </div>
+                            <a href="{% url 'checkout' %}"><button class="btn btn-primary btn-checkout">Checkout</button></a>
+                            <a href="{% url 'cart' %}"><button class="btn btn-primary btn-checkout mt-2">Back to Cart</button></a>
+                        </div>
+
+                        <div class="right-side p-3 shadow bg-white">
+                            <h4 class="product_name mb-3">Shipping Details</h4>
+                            <hr>
+
+
+                            {% comment %} <div class="col-lg-12 product_indiv d-flex justify-content-between">
+                                <p class="mb-1">Subtotal ({{ order.get_cart_items }} item{{ order.get_cart_items|pluralize }})</p>
+                                <p class="mb-1">$<span>{{order.get_cart_total|floatformat:2}}</span></p>
+                            </div>
+
+                            <div class="col-lg-12 product_indiv d-flex justify-content-between">
+                                <p>Shipping Cost</p>
+                                <p>$<span>25444.99</span></p>
+                                
+                            </div>
+                            <!--Voucher code-->
+                            <div class="col-lg-12 product_indiv d-flex justify-content-between">
+                                <input type="text" placeholder="Voucher Code" class="form-control p-1 me-2">
+                                <button type="button" class="btn btn-primary voucher-button">Apply</button>
+                                
+                            </div>
+                            <hr>
+
+                            <div class="col-lg-12 product_indiv d-flex justify-content-between fw-bold fs-5">
+                                <p>Total Cost</p>
+                                <p>$<span id="total_cart_amt">20000.99</span></p>
+                            </div> {% endcomment %}
+
+                            <div class="row py-2">
+                                <div class="col-md-12 col-lg-6">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                                </div>
+                                <div class="col-md-12 col-lg-6">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
+                                </div>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label for="inputEmail4" class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="Email" id="inputEmail4">
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label for="inputAddress" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="inputAddress" placeholder="Address">
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12 col-lg-6">
+                                    <label for="inputState" class="form-label">State</label>
+                                    <input type="text" class="form-control" placeholder="State" aria-label="State">
+                                </div>
+                                <div class="col-md-12 col-lg-6">
+                                    <label for="inputCity" class="form-label">City</label>
+                                    <input type="text" class="form-control" placeholder="City" aria-label="City">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-12 col-lg-4">
+                                    <label for="inputZip" class="form-label">Zip</label>
+                                    <input type="text" class="form-control" placeholder="Zip Code" aria-label="City">
+                                </div>
+                                <div class="col-md-12 col-lg-8">
+                                    <label class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="inputAddress" placeholder="Phone">
+                                </div>
+                            </div>                         
+                            
+
+                            <a href="{% url 'checkout' %}"><button class="btn btn-primary btn-checkout">Place Order</button></a>
+                        </div>
+                    </div>
+
+                    <!--right side div ends-->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock content %}
