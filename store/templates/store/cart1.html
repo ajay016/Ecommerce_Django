@@ -10,7 +10,7 @@
                     <div class="col-md-12 col-lg-9 col-11 mx-auto main_cart mb-lg-0 mb-5">
 
                         <div class="card p-3 shadow">
-                            <h2 class="pb-3 font-weight-bold">Cart ({{ order.get_cart_items }} item{{ order.get_cart_items|pluralize }})</h2>
+                            <h2 class="pb-3 font-weight-bold">Cart ({{ cartItems }} item{{ cartItems|pluralize }})</h2>
                             
                             <!--for loop starts-->
                             {% for item in items %}
