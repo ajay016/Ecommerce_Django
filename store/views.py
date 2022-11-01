@@ -25,7 +25,7 @@ def store(request):
     # if the user is not authenticated the cart item shows 0
     else:
         items = []
-        order = {'get_cart_total': 0, 'get_cart_items': 0}
+        order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
         
         # cartItems shows the item quantity in the cart icon, not an efficient way to do it
         cartItems = order['get_cart_items']
@@ -53,7 +53,7 @@ def cart(request):
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         
         # cartItems shows the item quantity in the cart icon, not an efficient way to do it
-        cartItems = order['get_cart_items']
+        cartItems = order['get_cart_items', 'shipping': False]
         
     # cartItems shows the item quantity in the cart icon, not an efficient way to do it
     context = {'items': items, 'order': order, 'cartItems': cartItems}    
@@ -75,7 +75,7 @@ def checkout(request):
         
     else:
         items = []
-        order = {'get_cart_total': 0, 'get_cart_items': 0}
+        order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
         
         # cartItems shows the item quantity in the cart icon, not an efficient way to do it
         cartItems = order['get_cart_items']
