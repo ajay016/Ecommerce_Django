@@ -10,6 +10,7 @@
                     <div class="col-md-12 col-lg-9 col-11 mx-auto main_cart mb-lg-0 mb-5">
 
                         <div class="card p-3 shadow">
+                            <!--Replace 'cartItems' with 'order.get_cart_items'. 'cartItems' gets updated even if the product is removed from the database for unauthenticated user-->
                             <h2 class="pb-3 font-weight-bold">Cart ({{ cartItems }} item{{ cartItems|pluralize }})</h2>
                             
                             <!--for loop starts-->
@@ -51,7 +52,7 @@
                                     
                                 </div>
                                 <div class="row mt-2 px-0 mx-2">
-                                    <div class="col-8 d-flex justify-content-between remove-wish px-0 mx">
+                                    <div class="col-8 d-flex justify-content-between remove-wish px-2 mx">
                                         <button data-product={{item.product.id}} data-action="delete" class="cart-remove bg-transparent border-0 update-cart"><i class="fa-solid fa-trash fa-xl me-1"></i>Remove Item</button>
                                         <p class="cart-remove"><i class="fa-solid fa-heart fa-xl me-1"></i>Add to Wishlist</p>
                                     </div>
