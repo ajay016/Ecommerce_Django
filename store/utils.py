@@ -40,7 +40,7 @@ def cookieCart(request):
             # Get the total number of items in the cart
             order['get_cart_items'] += cart[i]["quantity"]
             
-            # render the items for unauthenticated user to display n the cart page
+            # render the items for unauthenticated user to display in the cart page
             item = {
                 'product': {
                     'id': product.id,
@@ -62,3 +62,33 @@ def cookieCart(request):
             pass
     
     return {'items': items, 'order': order, 'cartItems': cartItems}
+
+def cartData(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        
+        # showing the item quantity in the cart icon, not an efficient way to do it
+        cartItems = order.get_cart_items
+        
+        # my code
+        # shows the total number of items in the cart
+        
+    else:
+        # if the user is unauthenticated return empty cart items and order
+        # items = []
+        # customer = {}
+        # order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
+        
+        # cartItems shows the item quantity in the cart icon, not an efficient way to do it
+        # cartItems = order['get_cart_items']
+        
+        # if the user is unauthenticated return the items, order and cartItems from the cookie that we got through javascript in utils.py file
+        cookieData = cookieCart(request)
+        items = cookieData['items']
+        order = cookieData['order']
+        cartItems = cookieData['cartItems']
+        customer = {}
+        
+    return {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer}
