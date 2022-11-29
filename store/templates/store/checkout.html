@@ -235,11 +235,11 @@
                                 <div class="row pb-2 pt-0">
                                     <div id="shipping-first-name" class="col-md-12 col-lg-6 mt-0">
                                         <label class="form-label">First Name</label>
-                                        <input type="text" name="first-name" id="first-name-input" class="form-control" placeholder="First name" aria-label="First name">
+                                        <input type="text" name="fname" id="first-name-input" class="form-control" placeholder="First name">
                                     </div>
                                     <div id="shipping-last-name" class="col-md-12 col-lg-6 mt-0">
                                         <label class="form-label">Last Name</label>
-                                        <input type="text" name="first-name" id="last-name-input" class="form-control" placeholder="Last name" aria-label="Last name">
+                                        <input type="text" name="lname" id="last-name-input" class="form-control" placeholder="Last name">
                                     </div>
                                 </div>
                                 <div id="shipping-email" class="col-12 mb-2">
@@ -312,6 +312,8 @@
     <script type="text/javascript">
         var shipping = '{{order.shipping}}'
         var total = '{{ order.get_cart_total }}'
+        console.log('User:', user)
+        console.log(user == 'AnonymousUser')
 
         if(shipping == 'False'){
             document.getElementById("shipping-address").innerHTML = ''
@@ -367,9 +369,9 @@
             }
             //console.log(shippingInfo.email)
 
-            if(user == 'AnonymousUser'){
-                userFormData.first_name = form.first-name.value
-                userFormData.last_name = form.last-name.value
+            if(user === 'AnonymousUser'){
+                userFormData.first_name = form.fname.value
+                userFormData.last_name = form.lname.value
                 userFormData.email = form.email.value
                 userFormData.phone = form.phone.value
             }
@@ -387,8 +389,16 @@
             .then((data) => {
                 console.log('Success:', data);
                 alert('Transaction Completed');
+
+                // Before sending the guest customer to the home page clear the cookie so tha that the quantity
+                // is 0 in the cart icon in the homepage shows, otherwise the quantity in the cart icon will 
+                // not change after making the payment 
+                cart = {}
+                document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/"
+
                 window.location.href = '{% url 'store' %}';
             })
+            console.log('Form Data:', userFormData)
         }
 
     </script>

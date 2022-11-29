@@ -3,7 +3,7 @@ from django.http import JsonResponse
 import datetime
 import json
 from .models import *
-from .utils import cookieCart, cartData
+from .utils import cookieCart, cartData, guestOrder
 
 def store(request):
     
@@ -55,6 +55,9 @@ def cart(request):
     items = data['items']
     order = data['order']
     cartItems = data['cartItems']
+    
+    # for p in items:
+    #     print('Items:', p.product.price)
         
     # cartItems shows the item quantity in the cart icon, not an efficient way to do it
     context = {'items': items, 'order': order, 'cartItems': cartItems}    
@@ -119,52 +122,21 @@ def processOrder(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         
     else:
-        print('User is not logged in...')
-        
-        # For unauthenticated user get the user information from the form that the customer has to fill during checkout
-        print(f'Cookies:{request.COOKIES}')
-        first_name = data['form']['first_name']
-        last_name = data['form']['last_name']
-        email = data['form']['email']
-        phone = data['form']['phone']
-        
-        # Get the cookie data from util.py
-        cookieData = cookieCart(request)
-        # 'cookieData' returns dictionary where 'items' is one of the keys
-        items = cookieData['items']
-        
-        # Create a customer with his email if he is not registered. We get this email from the checkout form and is passed here in json format by using javascript in 'checkout.html' file
-        customer, created = Customer.objects.get_or_create(email=email)
-        # Cusomer may want to change his email. This is why we write this code outside the 'get_or_create' method
-        customer.first_name = first_name
-        customer.last_name = last_name
-        customer.phone = phone
-        
-        # Create order
-        # Both authenticated and unauthenticated user need to have order and orderItems
-        order = Order.objects.create(
-            customer = customer,
-            complete = False
-        )
-        
-        for item in items:
-            # Get the product by its id
-            product = Product.objects.get(id=items['product']['id'])
-            
-            # Create OrderItem in the database for the products
-            orderItem = OrderItem.objects.create(
-                product = product,
-                order = order,
-                quantity = item['quantity']
-            )
+        # 'guestOreder' function returns customer and order. The function has been created in utils.py file 
+        customer, order = guestOrder(request, data)
             
     total = float(data['form']['total'])
     order.transaction_id = transaction_id
-    
-    if total == order.get_cart_total:
+    print(total == float(order.get_cart_total))
+    if total == float(order.get_cart_total):
+        print(total == float(order.get_cart_total))
         order.complete = True
         
     order.save()
+    print('Complete:', order.complete)
+    print('Customer:', customer.first_name)
+    print('Customer:', customer.email)
+    print('Customer:', customer.phone)
     
     if order.shipping == True:
             ShippingAddress.objects.create(

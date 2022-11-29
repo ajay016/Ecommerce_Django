@@ -89,6 +89,55 @@ def cartData(request):
         items = cookieData['items']
         order = cookieData['order']
         cartItems = cookieData['cartItems']
-        customer = {}
+        try:
+            customer = request.user.customer
+        except :
+            customer = {}
         
+    print('Customer:', customer)
     return {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer}
+
+def guestOrder(request, data):
+    
+    # From this line to the for loop 'for item in items' can be put inside the 'processOrder' function in views.py file
+    print('User is not logged in...')
+        
+    # For unauthenticated user get the user information from the form that the customer has to fill during checkout
+    print(f'Cookies:{request.COOKIES}')
+    first_name = data['form']['first_name']
+    last_name = data['form']['last_name']
+    email = data['form']['email']
+    phone = data['form']['phone']
+    
+    # Get the cookie data from util.py
+    cookieData = cookieCart(request)
+    # 'cookieData' returns dictionary where 'items' is one of the keys
+    items = cookieData['items']
+    
+    # Create a customer with his email if he is not registered. We get this email from the checkout form and is passed here in json format by using javascript in 'checkout.html' file
+    customer, created = Customer.objects.get_or_create(email=email, first_name=first_name)
+    # Cusomer may want to change his email. This is why we write this code outside the 'get_or_create' method
+    # customer.first_name = first_name
+    customer.last_name = last_name
+    customer.phone = phone
+    customer.save()
+    
+    # Create order
+    # Both authenticated and unauthenticated user need to have order and orderItems
+    order = Order.objects.create(
+        customer = customer,
+        complete = False
+    )
+    
+    for item in items:
+        # Get the product by its id
+        product = Product.objects.get(id=item['product']['id'])
+        
+        # Create OrderItem in the database for the products
+        orderItem = OrderItem.objects.create(
+            product = product,
+            order = order,
+            quantity = item['quantity']
+        )
+    
+    return customer, order
