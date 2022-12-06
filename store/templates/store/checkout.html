@@ -294,8 +294,8 @@
                                 </div>
 
                             </div> {% endcomment %}
-
-                            <button id="make-payment" class="btn btn-primary card-btn w-100">Make Payment</button>
+                            <div id="paypal-button-container"></div>
+                            <!--<button id="make-payment" class ="btn btn-primary card-btn w-100">Make Payment</button>-->
 
                         </div>
 
@@ -309,9 +309,46 @@
         </div>
     </div>
 
+    <script src="https://www.paypal.com/sdk/js?client-id=AQv09BDp1zvptTvV12HwQ7_cpsUWpSXQL6An37arJT1u5ybRRckIyOIJvLzvu1ikUf_gXcF8utLLv_aJ&currency=USD"></script>
+
+    <script>
+        var total = '{{ order.get_cart_total }}'
+        paypal.Buttons({
+
+            style: {
+                color: "gold",
+                shape: "pill",
+                layout: "vertical"
+                
+              },
+
+            // Sets up the transaction when a payment button is clicked
+            createOrder: (data, actions) => {
+                return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                    value: parseFloat(total).toFixed(2) // Can also reference a variable or function
+                    }
+                }]
+                });
+            },
+            // Finalize the transaction after payer approval
+            onApprove: (data, actions) => {
+                return actions.order.capture().then(function(orderData) {
+                // Successful capture! For dev/demo purposes:
+                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                submitFormData()    // Call the function after the transaction in approved instead of .addEventListener
+                // When ready to go live, remove the alert and show a success message within this page. For example:
+                // const element = document.getElementById('paypal-button-container');
+                // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                // Or go to another URL:  actions.redirect('thank_you.html');
+                });
+            }
+        }).render('#paypal-button-container');
+      </script>
+
     <script type="text/javascript">
         var shipping = '{{order.shipping}}'
-        var total = '{{ order.get_cart_total }}'
         console.log('User:', user)
         console.log(user == 'AnonymousUser')
 
@@ -336,10 +373,11 @@
             document.getElementById("payment-div").classList.remove("hidden");
         })
 
-        document.getElementById("make-payment").addEventListener('click', function(e){
+        // Payment Button event Listener
+        /*document.getElementById("make-payment").addEventListener('click', function(e){
             submitFormData()
-        })
-
+        })*/
+        // Payment Button event Listener
         function submitFormData(){
             console.log("Payment button clicked")
 
