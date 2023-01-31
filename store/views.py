@@ -152,3 +152,8 @@ def processOrder(request):
         
     return JsonResponse('Payment Complete', safe=False)
 
+def productDetail(request, id):
+    product = Product.objects.get(id=id)
+    context = {'product': product}
+    
+    return render(request, 'store/product.html', context)

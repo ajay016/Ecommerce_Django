@@ -49,10 +49,10 @@
           {% for product in products %}
             <div class="col-lg-3 col-md-4 col-sm-6 col-xl-2 col-12 product-div">
               <div class="product-card">
-                <a href="#"><img class="thumbnail product-child" src="{{product.imageURL}}"></a>
+                <a href="{% url 'product_detail' product.id %}"><img class="thumbnail product-child" src="{{product.imageURL}}"></a>
                 <div class="box-element product product-child">
                     <div class="all-product-name">
-                      <a href="#" class="product-name"><span>{{ product.name }}</span></a>
+                      <a href="{% url 'product_detail' product.id %}" class="product-name"><span>{{ product.name }}</span></a>
                     </div>
                     
                     <hr>

@@ -1,0 +1,153 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container px-5 d-inline-flex">
+
+        <nav class="navbar navbar-expand d-flex flex-column align-items-start sidebar" id="side-navbar">
+
+            <h5 class="p-2"><span class="sidebar-heading">Shop by Categories</span></h5>
+            <ul class="navbar-nav d-flex flex-column mt-2 w-100">
+                <li class="nav-item sidebar-lists w-100">
+                    <a href="#" class="nav-link sidebar-fonts"><span>Health and care</span></a>
+                </li>
+                <li class="nav-item sidebar-lists w-100">
+                    <a href="#" class="nav-link sidebar-fonts"><span>Health and care</span></a>
+                </li>
+                <li class="nav-item sidebar-lists w-100">
+                    <a href="#" class="nav-link sidebar-fonts"><span>Health and care</span></a>
+                </li>
+                <li class="nav-item sidebar-lists w-100">
+                    <a href="#" class="nav-link sidebar-fonts"><span>Health and care</span></a>
+                </li>
+                <li class="nav-item sidebar-lists w-100">
+                    <a href="#" class="nav-link sidebar-fonts"><span>Health and care</span></a>
+                </li>
+                <li class="nav-item sidebar-lists w-100">
+                    <a href="#" class="nav-link sidebar-fonts"><span>Health and care</span></a>
+                </li>
+            </ul>
+
+        </nav>
+
+        
+        <div class="product-details w-100 px-2">
+            {% comment %} <div class="row mb-2"> {% endcomment %}
+            <div class="col-md-12 col-12 d-lg-flex">
+                {% comment %} <div class="row gx-3"> {% endcomment %}
+                <div class="product-details-image-div col-lg-5 col-md-4 col-11 px-2">
+                    <img src="{{product.imageURL}}" class="product-details-image" alt="">
+                    <div>
+                        <p>images</p>
+                    </div>
+                </div>
+
+                <!--Product details-->
+                <div class="product-page-details col-lg-7 col-md-7 col-11 px-2">
+                    <h3 class="mb-0"><span class="product-details-name">{{product.name}}</span></h3>
+                    <p><span class="product-details-category">Category</span></p>
+                    <h3 class="mb-0"><span class="product-details-price">${{product.price}}</span></h3>
+                
+                    <!--Product review/rating-->
+                    <div class="rating-div">
+                        <div class="row">
+                            <div class="product-rating mt-2 d-flex">
+                                <ul class="stars d-flex list-unstyled">
+                                    <li class="star pe-1"><i class="fa-solid fa-star"></i></li>
+                                    <li class="star pe-1"><i class="fa-solid fa-star"></i></li>
+                                    <li class="star pe-1"><i class="fa-solid fa-star"></i></li>
+                                    <li class="star pe-1"><i class="fa-solid fa-star"></i></li>
+                                    <li class="star pe-1"><i class="fa-solid fa-star"></i></li>
+                                </ul>
+                                <div class="star-review ps-2">
+                                    <p><span class="star-votes">4.7(20 votes)</span></p>
+                                </div>                                        
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-about">
+                        <h5><span>About</span></h5>
+                    </div>
+                    <div class="product-about-details">
+                        <p><span class="product-detail-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni reprehenderit incidunt minima repudiandae, cupiditate neque
+                                delectus rerum eum inventore pariatur nulla, eos sit aperiam debitis at corporis. Eveniet, dolores voluptas.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, dolor commodi, sapiente labore
+                                assumenda debitis quae sit porro magni natus quo incidunt rerum? Vitae facere delectus, rem cumque 
+                                corporis dicta?</span></p>
+                    </div>
+                    <!--Size-->
+                    <form action="" class="size-form" id="size-id">
+                        <div class="size-select">
+                            <p class="mb-1" id="size-heading" style="color: gray; font-size: 13px; font-weight: 600">Size</p>
+    
+                            <label for="small" class="size-label" id="frist-label">
+                                <input type="radio" name="size" id="small" class="size-radio" value="small">
+                                <span>S</span>
+                            </label>
+                            <label for="medium" class="size-label">
+                                <input type="radio" name="size" id="medium" class="size-radio" value="medium">
+                                <span>M</span>
+                            </label>
+                            <label for="large" class="size-label">
+                                <input type="radio" name="size" id="large" class="size-radio" value="large">
+                                <span>L</span>
+                            </label>
+                            <label for="x-large" class="size-label">
+                                <input type="radio" name="size" id="x-large" class="size-radio" value="x-large">
+                                <span>XL</span>
+                            </label>
+                            <label for="xx-large" class="size-label">
+                                <input type="radio" name="size" id="xx-large" class="size-radio" value="xx-large">
+                                <span>XXL</span>
+                            </label>
+                        </div>
+                        <button type="submit" name="size" value="Submit" id="shipping-button" class="btn btn-primary btn-checkout">Place Order</button>
+                    </form>
+                    
+                </div>
+
+                {% comment %} </div> {% endcomment %}
+            </div>
+            {% comment %} </div> {% endcomment %}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var radios = document.getElementsByName('size');
+        var size = document.getElementById("size-id")
+        var sizeLabel = document.getElementsByClassName('size-label')
+        var radioButton = document.getElementsByClassName('size-radio')
+        
+        size.addEventListener("submit", function(e){
+            e.preventDefault()
+            for (var i = 0; i < radios.length; i++) {
+            
+                if (radios[i].type === 'radio' && radios[i].checked) {
+                    // get value, set checked flag or do whatever you need to
+                    value = radios[i].value;
+                    console.log("Value:", value)      
+                }   
+                
+            }
+        })
+        
+        for(var i = 0; i < radioButton.length; i++){
+            radioButton[i].addEventListener('click', labelFunction)
+        }
+
+        function labelFunction(){
+
+            var unselect = document.getElementById('size-heading')
+            while (unselect = unselect.nextSibling){
+                if(unselect.tagName === 'LABEL'){
+                    unselect.classList.remove('checked')
+                }
+            }
+
+            this.parentElement.classList.toggle('checked')
+        }
+    </script>
+
+
+{% endblock content %}

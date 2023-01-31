@@ -9,7 +9,7 @@
 	font-family: 'Sarabun', sans-serif;
 }
 
-.col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12, .col-lg-3, .col-lg-9 {
+.col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12, .col-lg-3, .col-lg-9, .col-lg-5, .col-lg-7 {
 	margin-top: 10px;
 }
 
@@ -97,13 +97,6 @@ h1,h2,h3,h4,h5,h6{
 /* .product-div:hover .product-card {
 	padding-left: 0;
 	padding-right: 0;
-	box-shadow: none;
-	transition: 0.3s;
-} */
-
-/* .product-div:hover .box-element {
-	padding-left: 10px;
-	padding-right: 10px;
 	box-shadow: none;
 	transition: 0.3s;
 } */
@@ -430,4 +423,134 @@ p.quantity {
 .cart-thumbnail-checkout {
 	width: 100%;
 	height: 120px;
+}
+
+.thumbnail-product-pic {
+	width: 300px;
+	height: 300px;
+	object-fit: contain;
+}
+
+/* Sidebar */
+
+.sidebar {
+	width: 300px;
+	height: 100vh;
+	position: sticky;
+	background: linear-gradient(135deg, rgba(255,87,87,1) 0%, rgba(253,92,29,1) 63%);
+	
+}
+
+.sidebar-heading {
+	color: white;
+}
+
+.sidebar-fonts {
+	color: white;
+	font-weight: 500;
+	border-left: 3px solid transparent;
+}
+
+.sidebar-fonts:hover {
+	color: white;
+	background-color: rgba(210, 60, 60, 1);
+	border-left-color: rgb(255,87,87);
+}
+
+.sidebar-lists {
+	line-height: 30px;
+	border-bottom: 1px solid rgba(222, 226, 218, 1);
+}
+
+.product-details-image {
+	width: 100%;
+	height: auto;
+}
+
+.product-details-category {
+	font-size: 13px;
+	font-weight: 550;
+}
+
+.product-detail-text {
+	font-family: 'Montserrat', sans-serif;
+}
+
+.star-votes {
+	font-size: 12px;
+	font-weight: 570;
+}
+
+.product-details-name {
+	font-weight: 500;
+	color: rgba(90, 90, 90, 1);
+}
+
+.product-details-price {
+	font-weight: 600;
+	color: rgba(255, 98, 0, 1);
+}
+
+.size-select {
+	align-items: center;
+}
+
+.size-form {
+	font-size: 15px;
+	font-weight: 500;
+}
+
+/* .size-select input:checked + span {
+	color: rgb(219, 75, 75);
+	font-weight: 600;
+} */
+
+/* .size-select input:hover +  span {
+	color: rgb(255, 255, 255);
+	font-weight: 600;
+} */
+
+/* .size-select input:hover .size-label {
+	background-color: rgb(219, 75, 75);
+	font-weight: 600;
+} */
+
+.size-select input {
+	display: none;
+}
+
+.size-select span {
+	width: 100%;
+	height: 100vh;
+	padding-left: 10px;
+	padding-right: 10px;
+	/* margin-right: 10px; */
+	cursor: pointer;
+}
+
+.size-label {
+	margin-right: 5px;
+	border: 2px solid rgb(235, 164, 117);
+	/* border-color: black; */
+	border-radius: 5px;
+	text-align: center;
+}
+
+.size-label:hover {
+	border-color: rgb(219, 75, 75);
+	background-color: rgb(219, 75, 75);
+	color: white;
+	cursor: pointer;
+}
+
+/* .size-label:checked {
+	border-color: rgb(219, 75, 75);
+	background-color: rgb(219, 75, 75);
+	color: white;
+} */ 
+
+.checked {
+	border-color: rgb(219, 75, 75);
+	background-color: rgb(219, 75, 75);
+	color: white;
 }
