@@ -78,32 +78,85 @@
                     </div>
                     <!--Size-->
                     <form action="" class="size-form" id="size-id">
-                        <div class="size-select">
-                            <p class="mb-1" id="size-heading" style="color: gray; font-size: 13px; font-weight: 600">Size</p>
+                        <div class="size-select col-12 mb-3">
+                            <p class="mb-1" id="size-heading" style="color: black; font-size: 15px; font-weight: 600">Size</p>
     
                             <label for="small" class="size-label" id="frist-label">
                                 <input type="radio" name="size" id="small" class="size-radio" value="small">
-                                <span>S</span>
+                                <span class="size-span">S</span>
                             </label>
                             <label for="medium" class="size-label">
                                 <input type="radio" name="size" id="medium" class="size-radio" value="medium">
-                                <span>M</span>
+                                <span class="size-span">M</span>
                             </label>
                             <label for="large" class="size-label">
                                 <input type="radio" name="size" id="large" class="size-radio" value="large">
-                                <span>L</span>
+                                <span class="size-span">L</span>
                             </label>
                             <label for="x-large" class="size-label">
                                 <input type="radio" name="size" id="x-large" class="size-radio" value="x-large">
-                                <span>XL</span>
+                                <span class="size-span">XL</span>
                             </label>
                             <label for="xx-large" class="size-label">
                                 <input type="radio" name="size" id="xx-large" class="size-radio" value="xx-large">
-                                <span>XXL</span>
+                                <span class="size-span">XXL</span>
                             </label>
                         </div>
-                        <button type="submit" name="size" value="Submit" id="shipping-button" class="btn btn-primary btn-checkout">Place Order</button>
+
+                        <!--Color-->
+                        
+                        <div class="size-select col-12 mb-3">
+                            <p class="mb-1" id="color-heading" style="color: black; font-size: 15px; font-weight: 600">Color</p>
+    
+                            <label for="color-1" class="color-label" id="frist-color">
+                                <input type="radio" name="color" id="color-1" class="color-radio" value="color-1">
+                                <span class="size-span">C-1</span>
+                            </label>
+                            <label for="color-2" class="color-label">
+                                <input type="radio" name="color" id="color-2" class="color-radio" value="color-2">
+                                <span class="size-span">C-2</span>
+                            </label>
+                            <label for="color-3" class="color-label">
+                                <input type="radio" name="color" id="color-3" class="color-radio" value="color-3">
+                                <span class="size-span">C-3</span>
+                            </label>
+                            <label for="color-4" class="color-label">
+                                <input type="radio" name="color" id="color-4" class="color-radio" value="color-4">
+                                <span class="size-span">C-4</span>
+                            </label>
+                            <label for="color-5" class="color-label">
+                                <input type="radio" name="color" id="color-5" class="color-radio" value="color-5">
+                                <span class="size-span">C-5</span>
+                            </label>
+                        </div>
+                        <!--Quantity button-->
+                        <div class="row">
+
+                            <div class="col-lg-3 col-12>
+                                <p class="mb-1" id="color-heading" style="color: black; font-size: 18px; font-weight: 600">Quantity</p>
+                            </div>
+                            
+                            <div class="col-lg-6 col-12 input-group custom-input-group input-group-sm ms-0 pe-0">
+                                <button data-product={{product.id}} data-action="remove" class="input-group-text quantity-button update-cart"><i class="fa-solid fa-minus"></i></button>                                               
+                                <input type="text" id="quantity-input-field{{product.id}}" class="form-control quantity-button text-center" value="{{product_quantity}}">
+                                <button data-product={{product.id}} data-action="add" class="input-group-text quantity-button update-cart"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            
+                        </div>
+                        <!--Quantity button-->
+                        {% comment %} <button type="submit" name="size" value="Submit" id="shipping-button" class="btn btn-primary btn-checkout">Place Order</button> {% endcomment %}
+                        
+                        <!--Color-->
+                        {% comment %} <button type="submit" name="size" value="Submit" id="shipping-button" class="btn btn-primary btn-checkout">Place Order</button> {% endcomment %}
                     </form>
+
+                    <!--Size-->
+                    
+                    <div class="d-flex">
+                        <button type="submit" name="size" value="Submit" id="shipping-button" class="btn btn-primary mt-4 product-details-add-btn me-4">Add to Cart</button>
+                        <button type="submit" name="size" value="Submit" id="shipping-buy-button" class="btn btn-primary mt-4 product-details-add-btn">Buy Now</button>
+                    </div>
+                         
                     
                 </div>
 
@@ -112,42 +165,6 @@
             {% comment %} </div> {% endcomment %}
         </div>
     </div>
-
-    <script type="text/javascript">
-        var radios = document.getElementsByName('size');
-        var size = document.getElementById("size-id")
-        var sizeLabel = document.getElementsByClassName('size-label')
-        var radioButton = document.getElementsByClassName('size-radio')
-        
-        size.addEventListener("submit", function(e){
-            e.preventDefault()
-            for (var i = 0; i < radios.length; i++) {
-            
-                if (radios[i].type === 'radio' && radios[i].checked) {
-                    // get value, set checked flag or do whatever you need to
-                    value = radios[i].value;
-                    console.log("Value:", value)      
-                }   
-                
-            }
-        })
-        
-        for(var i = 0; i < radioButton.length; i++){
-            radioButton[i].addEventListener('click', labelFunction)
-        }
-
-        function labelFunction(){
-
-            var unselect = document.getElementById('size-heading')
-            while (unselect = unselect.nextSibling){
-                if(unselect.tagName === 'LABEL'){
-                    unselect.classList.remove('checked')
-                }
-            }
-
-            this.parentElement.classList.toggle('checked')
-        }
-    </script>
 
 
 {% endblock content %}

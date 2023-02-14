@@ -2,45 +2,110 @@
 {% load static %}
 
 {% block content %}
-    <div class="row py-2">
-        <div class="col-lg-12 px-4">
-            <div class="box-element">
-                <a class="btn btn-outline-dark" href="{% url 'store' %}">&#8592; Contonue Shopping</a>
-                <br>
-                <br>
+    <div class="container px-5">
+        <div class="row mb-2">
+            <div class="col-md-12 col-12 mx-auto">
+                <div class="row gx-3">
+                    <!--left side div-->
+                    <div class="col-md-12 col-lg-9 col-11 mx-auto main_cart mb-lg-0 mb-5">
 
-                <table class="table">
-                    <tr>
-                        <th><h5>Items: <strong>3</strong></h5></th>
-                        <th><h5>Total: <strong>3</strong></h5></th>
-                        <th><a style="float: right;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a></th>
-                    </tr>
-                </table>
-            </div>
-            <br>
-            <div class="box-element">
-                <div class="cart-row">
-                    <div style="flex:2"></div>
-                    <div style="flex:2"><strong>Item</strong></div>
-                    <div style="flex:1"><strong>Price</strong></div>
-                    <div style="flex:1"><strong>Quantity</strong></div>
-                    <div style="flex:1"><strong>Total</strong></div>
-                </div>
-                
-                <div class="cart-row">
-                    <div style="flex:2"><img class="row-image" src="{% static 'images/placeholder.png' %}"></div>
-                    <div style="flex:2">Product 1</div>
-                    <div style="flex:1">$20</div>
-                    <div style="flex:1">
-                        <p class="quantity">2</p>
-                        <div class="quantity">
-                            <img class="chg-quantity" src="{% static 'images/arrow-up.png' %}">
-                            <img class="chg-quantity" src="{% static 'images/arrow-down.png' %}">
+                        <div class="card p-3 shadow">
+                            <!--Replace 'cartItems' with 'order.get_cart_items'. 'cartItems' gets updated even if the product is removed from the database for unauthenticated user-->
+                            <h2 id="cart-item-value" class="pb-3 font-weight-bold">Cart ({{ cartItems }} item{{ cartItems|pluralize }})</h2>
+                            
+                            <!--for loop starts-->
+                            {% for item in items %}
+                                
+                                <div class="row mb-2 px-3">
+                                    <hr class="mt-3">
+                                    <div class="col-md-3 col-lg-3 col-11 mx-auto bg-light d-flex justify-content-center align-items-center shadow product_img px-0 mt-1 mb-2">
+                                        <a href="#"><img src="{{ item.product.imageURL }}" class="cart-thumbnail"  alt=""></a>
+                                    </div>
+
+                                    <!--cart product details-->
+                                    <div class="col-md-9 col-lg-9 col-11 mx-auto mt-1 pe-0">
+                                        <div class="row">
+                                            <!--product name-->
+
+                                            <div class="row pe-1">
+                                                <div class="col-lg-6 col-12 mt-0">
+                                                    <p class="mb-0">Unit Price: <strong>${{item.product.price}}</strong></p>
+                                                </div>
+
+                                                <!--Quantity button-->
+                                                <div class="col-lg-6 col-12 input-group custom-input-group input-group-sm my-1 pe-0">
+                                                    <button data-product={{item.product.id}} data-action="remove" class="input-group-text quantity-button update-cart"><i class="fa-solid fa-minus"></i></button>                                               
+                                                    <input type="text" id="quantity-input-field{{item.product.id}}" class="form-control quantity-button text-center" value="{{item.quantity}}">
+                                                    <button data-product={{item.product.id}} data-action="add" class="input-group-text quantity-button update-cart"><i class="fa-solid fa-plus"></i></button>
+                                                </div>
+                                                <!--Quantity button-->
+
+                                            </div>
+
+                                            
+                                            <div class="col-lg-9 col-12 cart-title">
+                                                <a href="#" class="cart-product-name"><h6 class="mb-2">{{ item.product.name }}</h6></a>
+                                                <p class="cart-item-description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, deserunt iure. Beatae, repellendus sunt eveniet voluptatibus voluptates ea illum commodi qui autem laborum. Asperiores illo error aliquid reiciendis placeat? Similique?</p>
+                                            </div>
+
+                                        </div>
+
+                                        
+                                    </div>
+                                    <div class="row mt-2 px-0 mx-2">
+                                        <div class="col-8 d-flex justify-content-between remove-wish px-3 mx">
+                                            <button data-product={{item.product.id}} data-action="delete" class="cart-remove bg-transparent border-0 update-cart"><i class="fa-solid fa-trash fa-xl me-1"></i>Remove Item</button>
+                                            <p class="cart-remove"><i class="fa-solid fa-heart fa-xl me-1"></i>Add to Wishlist</p>
+                                        </div>
+                                        <div class="col-4 d-flex justify-content-end price-money pe-3">
+                                            <h5 class="fw-bold pe-3"><span id="itemval">${{ item.get_total|floatformat:2 }}</span></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--for loop ends-->
+                            {% endfor %}
+
+
+                        </div>
+
+                        
+                    </div>
+                    <!--left side div ends-->
+
+                    <!--right side div starts-->
+                    <div class="col-md-12 col-lg-3 col-11 mx-auto">
+                        <div class="right-side p-3 shadow bg-white">
+                            <h4 class="product_name mb-3">Order Summary</h4>
+                            <hr>
+                            <div class="col-lg-12 product_indiv d-flex justify-content-between">
+                                <p class="mb-1">Subtotal ({{ order.get_cart_items }} item{{ order.get_cart_items|pluralize }})</p>
+                                <p class="mb-1">$<span>{{order.get_cart_total|floatformat:2}}</span></p>
+                            </div>
+
+                            <div class="col-lg-12 product_indiv d-flex justify-content-between">
+                                <p>Shipping Cost</p>
+                                <p>$<span>25444.99</span></p>
+                                
+                            </div>
+                            <!--Voucher code-->
+                            <div class="col-lg-12 product_indiv d-flex justify-content-between">
+                                <input type="text" placeholder="Voucher Code" class="form-control p-1 me-2">
+                                <button type="button" class="btn btn-primary voucher-button">Apply</button>
+                                
+                            </div>
+                            <hr>
+
+                            <div class="col-lg-12 product_indiv d-flex justify-content-between fw-bold fs-5">
+                                <p>Total Cost</p>
+                                <p>$<span id="total_cart_amt">20000.99</span></p>
+                            </div>
+                            <a href="{% url 'checkout' %}"><button class="btn btn-primary btn-checkout">Checkout</button></a>
+                            
                         </div>
                     </div>
-                    <div style="flex:1">$40</div>
+
+                    <!--right side div ends-->
                 </div>
-                
             </div>
         </div>
     </div>

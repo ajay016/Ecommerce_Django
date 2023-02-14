@@ -55,15 +55,20 @@ def cart(request):
     items = data['items']
     order = data['order']
     cartItems = data['cartItems']
+    p = []
     
     # for p in items:
     #     print('Items:', p.product.price)
         
     # cartItems shows the item quantity in the cart icon, not an efficient way to do it
     context = {'items': items, 'order': order, 'cartItems': cartItems}    
-    #print('Items:', items)
+    # print('Items:', items)
+    for i in items:
+        p.append(i.product.id)
+
+    print(p)
     # context = {'items': items, 'order': order}
-    return render(request, 'store/cart1.html', context)
+    return render(request, 'store/cart.html', context)
 
 def checkout(request):
             
@@ -110,8 +115,12 @@ def updateItem(request):
     
     if orderItem.quantity <= 0:
         orderItem.delete()
-    
-    return JsonResponse('Item was added', safe=False)
+
+    cart_quantity = order.get_cart_items
+    each_item_quantity = orderItem.quantity
+
+    # return JsonResponse('Item was added', safe=False)
+    return JsonResponse({'success':True, 'order': cart_quantity, 'each_item_quantity': each_item_quantity, 'productId': productId})
 
 def processOrder(request):
     transaction_id = datetime.datetime.now().timestamp()
@@ -153,7 +162,21 @@ def processOrder(request):
     return JsonResponse('Payment Complete', safe=False)
 
 def productDetail(request, id):
+
+    data = cartData(request)
+    items = data['items']
+    order = data['order']
+    cartItems = data['cartItems']
     product = Product.objects.get(id=id)
-    context = {'product': product}
+
+    try:
+        order_item = OrderItem.objects.get(product=product)
+        product_quantity = order_item.quantity
+        print(product_quantity)
+    
+    except:
+        product_quantity = 1
+            
+    context = {'product': product, 'cartItems': cartItems, 'items': items, 'order': order, 'product_quantity': product_quantity}
     
     return render(request, 'store/product.html', context)

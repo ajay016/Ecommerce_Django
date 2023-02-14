@@ -22,10 +22,10 @@ def cookieCart(request):
     # loop through the cart dictionary, cart contains "2: '{quantity: 1}'", where '2' is the productID
     # and '{quantity: 1}' is dictionary within the cart dictionary containig the quantity of the product
     for i in cart:
-        # Try to get the product by its "id", if it is removed return empty cart
+        # Try to get the product by its "id". If it is removed return empty cart
         try:
             # 'cart[i]["quantity"]' returns the quantity of the product
-            # we get the quantity of the from the cookie set in the javascript and called here by 'cart = json.loads(request.COOKIES['cart'])'
+            # we get the quantity from the cookie set in the javascript and called here by 'cart = json.loads(request.COOKIES['cart'])'
             # So, for an unauthenticated user quantitiy of products in the cart is zero as set in the "order"
             # "cartItems" which was "0" to the value of the quantity that we got from the cookie
             cartItems += cart[i]["quantity"]
