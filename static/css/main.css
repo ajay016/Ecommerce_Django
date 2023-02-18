@@ -420,6 +420,10 @@ p.quantity {
 	height: 27px;
 }
 
+.product-quantity-button {
+	height: 27px;
+}
+
 .cart-thumbnail {
 	width: 100%;
 	height: 150px;

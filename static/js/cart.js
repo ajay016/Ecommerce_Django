@@ -1,7 +1,9 @@
 var updateBtns = document.getElementsByClassName("update-cart")
 
 for(var i = 0; i < updateBtns.length; i++){
-    updateBtns[i].addEventListener('click', function(){
+    updateBtns[i].addEventListener('click', function(e){
+        e.preventDefault();
+
         var productId = this.dataset.product
         var action = this.dataset.action
         console.log('ProductId:', productId, 'action:', action)
@@ -71,44 +73,62 @@ function updateUserOrder(productId, action){
         console.log('each_item_quantity:', data.each_item_quantity)
         
         //location.reload();
+
+        // If the server sends the data successfully, anad if the quantity = 0 or the action is remove, it will remove the product from the list in the cart
+
         if (data.success){    
-            
-            dynamicProductId = 'quantity-input-field' + data.productId
+            console.log('data:', data)
+            var dynamicProductId = 'quantity-input-field' + data.productId
             console.log('product_id:', data.productId)
-            quantityInputId = document.getElementById(dynamicProductId)
+            var quantityInputId = document.getElementById(dynamicProductId)
             
             document.getElementById("cart-total").innerHTML = data.order
             quantityInputId.value = data.each_item_quantity
 
-            let cartItemValue = document.getElementById("cart-item-value")
-            console.log('cartItemValue:', cartItemValue)
+            var removeCartBtn = document.getElementById('cart-remove-product')
+            console.log('removeCartBtn:', removeCartBtn)
+            console.log('action:', data.action === 'delete')
 
-            cartItemValue.innerText = 'Cart (' + data.order + ' ' + (data.order === 1 ? 'item' : 'items') + ')'
+            // Checks if it is the cart page
+            if(window.location.href.includes('cart')){
 
+                let cartItemValue = document.getElementById("cart-item-value")
+                console.log('cartItemValue:', cartItemValue)
 
-            // disable the '-' and '+' buttons if the quantity is less than 1
+                cartItemValue.innerText = 'Cart (' + data.order + ' ' + (data.order === 1 ? 'item' : 'items') + ')'
 
-            // If the quantity is equal or less than 0 remove the item
+                // If the quantity is equal to 0 remove the item
+                 // Remove Item in the cart page if the 'Remove Item' button is clicked           
+                if(data.action == 'delete' || quantityInputId.value == 0){
+                    
+                    var productDivId = 'cart-product-' + data.productId
+                    var productDiv = document.getElementById(productDivId)
+                    console.log('Removing item from cart')
+                    productDiv.remove()
+                    // let productDiv = removeCartBtn.parentNode
+                    console.log('productDiv:', productDiv)                  
+                }             
+            }
 
-            // if(quantityInputId.value == 0){
+            // Checks if it is the product detail page
+            if(window.location.href.includes('product_detail')){
 
-            //     // the querySelector finds a button with the class "data-product that has 'data-product == productID' and then removes it from the DOM"
-            //     let removeBtn = document.querySelector(`button[data-product='${data.productId}'][data-action='remove']`);
-            //     removeBtn.classList.add('quantity-btn-disabled');
+                // disable the '-' and '+' buttons if the quantity is less than 1
+                // If the quantity is equal or less than 0 remove the item
+                if(quantityInputId.value == 1){
 
-            // }
-            // if(quantityInputId.value > 0){
-            //     let removeBtn = document.querySelector(`button[data-product='${data.productId}'][data-action='remove']`);
-            //     removeBtn.classList.remove('quantity-btn-disabled');
+                    // the querySelector finds a button with the class "data-product that has 'data-product == productID' and then removes it from the DOM"
+                    let removeBtn = document.querySelector(`button[data-product='${data.productId}'][data-action='remove']`);
+                    removeBtn.classList.add('quantity-btn-disabled');
 
-            // }
+                }
+                if(quantityInputId.value > 1){
+                    let removeBtn = document.querySelector(`button[data-product='${data.productId}'][data-action='remove']`);
+                    removeBtn.classList.remove('quantity-btn-disabled');
 
-            if(quantityInputId.value == 0){
-                let parentDiv = quantityInputId.parentNode.parentNode.parentNode.parentNode.parentNode
-                console.log('parentDiv:', parentDiv)
-                parentDiv.remove()
-
-            }                    
+                }
+            }
+                            
         }
         else{
             console.error('Error updating cart item:')

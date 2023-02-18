@@ -120,7 +120,7 @@ def updateItem(request):
     each_item_quantity = orderItem.quantity
 
     # return JsonResponse('Item was added', safe=False)
-    return JsonResponse({'success':True, 'order': cart_quantity, 'each_item_quantity': each_item_quantity, 'productId': productId})
+    return JsonResponse({'success':True, 'order': cart_quantity, 'each_item_quantity': each_item_quantity, 'productId': productId, 'action': action})
 
 def processOrder(request):
     transaction_id = datetime.datetime.now().timestamp()
@@ -176,7 +176,14 @@ def productDetail(request, id):
     
     except:
         product_quantity = 1
-            
-    context = {'product': product, 'cartItems': cartItems, 'items': items, 'order': order, 'product_quantity': product_quantity}
+
+
+    context = {
+        'product': product,
+        'cartItems': cartItems,
+        'items': items,
+        'order': order,
+        'product_quantity': product_quantity
+        }
     
     return render(request, 'store/product.html', context)
