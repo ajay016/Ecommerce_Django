@@ -129,6 +129,7 @@
                                 <span class="size-span">C-5</span>
                             </label>
                         </div>
+
                         <!--Quantity button-->
                         <div class="row">
 
@@ -137,23 +138,20 @@
                             </div>
                             
                             <div class="col-lg-6 col-12 input-group custom-input-group input-group-sm ms-0 pe-0">
-                                <button data-product={{product.id}} data-action="remove" class="input-group-text product-quantity-button update-cart"><i class="fa-solid fa-minus"></i></button>                                               
+                                <button id="quantity-decrease" class="input-group-text product-quantity-button"><i class="fa-solid fa-minus"></i></button>                                               
                                 <input type="text" id="quantity-input-field{{product.id}}" class="form-control quantity-button text-center" value="{{product_quantity}}">
-                                <button data-product={{product.id}} data-action="add" class="input-group-text product-quantity-button update-cart"><i class="fa-solid fa-plus"></i></button>
+                                <button id="quantity-increase" class="input-group-text product-quantity-button"><i class="fa-solid fa-plus"></i></button>
                             </div>
                             
                         </div>
                         <!--Quantity button-->
-                        {% comment %} <button type="submit" name="size" value="Submit" id="shipping-button" class="btn btn-primary btn-checkout">Place Order</button> {% endcomment %}
-                        
-                        <!--Color-->
-                        {% comment %} <button type="submit" name="size" value="Submit" id="shipping-button" class="btn btn-primary btn-checkout">Place Order</button> {% endcomment %}
+                    
                     </form>
 
                     <!--Size-->
                     
                     <div class="d-flex">
-                        <button type="submit" name="size" value="Submit" id="shipping-button" class="btn btn-primary mt-4 product-details-add-btn me-4">Add to Cart</button>
+                        <button type="submit" name="size" value="Submit" data-product={{product.id}} data-action="productAdd" id="shipping-button" class="btn btn-primary mt-4 product-details-add-btn me-4">Add to Cart</button>
                         <button type="submit" name="size" value="Submit" id="shipping-buy-button" class="btn btn-primary mt-4 product-details-add-btn">Buy Now</button>
                     </div>
                         
@@ -170,17 +168,82 @@
 
         var radios = document.getElementsByName('size');
         var size = document.getElementById("size-id")
-        var sizeLabel = document.getElementsByClassName('size-label')
         var radioButton = document.getElementsByClassName('size-radio')
         var addToCartBtn = document.getElementById('shipping-button')
         var colorRadios = document.getElementsByName('color')
-        var colorLabel = document.getElementsByClassName('color-label')
         var colorRadioBtn = document.getElementsByClassName('color-radio')
+ 
+        // if the product is not in the cart or the product quantity is 1, disable the '-' quantity button
+        //$(document).ready(function(){
 
+        // get the id of the input field of the quantity
+        var quantityInputFieldId = $('#quantity-input-field{{product.id}}')
+        var quantityInputValue = parseInt($('#quantity-input-field{{product.id}}').val())
+        var quantityDecrease = $('#quantity-decrease')
+        var quantityIncrease = $('#quantity-increase')
+
+        console.log('quantityInputValue: ' + quantityInputValue)
+        console.log('User: ', user)
+
+        if(quantityInputValue <= 1){
+            // var inputIdString = 'button[data-product={{product.id}}][data-action=remove]'
+            quantityDecrease.addClass('quantity-btn-disabled')
+        }
+
+        function quantityEnableDisable(quantityInputValue, quantityDecrease){
+            if(quantityInputValue <= 1){
+                // var inputIdString = 'button[data-product={{product.id}}][data-action=remove]'
+                quantityDecrease.addClass('quantity-btn-disabled')
+            }
+            if(quantityInputValue > 1){
+                quantityDecrease.removeClass('quantity-btn-disabled')
+            }
+        }
+
+        quantityDecrease.click(function(e){
+            e.preventDefault()
+            quantityInputValue -= 1
+            console.log(quantityInputValue)
+            quantityInputFieldId.val(quantityInputValue)
+
+            quantityEnableDisable(quantityInputValue, quantityDecrease)
+            
+        })
+
+        quantityIncrease.click(function(e){
+            e.preventDefault()
+            quantityInputValue += 1
+            console.log(quantityInputValue)
+            quantityInputFieldId.val(quantityInputValue)
+
+            quantityEnableDisable(quantityInputValue, quantityDecrease)
+            
+        })
+
+        // Radio Buttons start
+
+        // Clicking on add to cart button, it will trigger the eventListener function
         addToCartBtn.addEventListener("click", function(e){
             e.preventDefault()
+
+            var productId = {{ product.id }}
+            var action = this.dataset.action
+            var quantity = quantityInputValue
+
+            console.log('quantityInputValue: ' + quantity)
+
+            if(user === 'AnonymousUser'){
+                addCookieProduct(productId, action, quantity)
+                console.log('User:', user)
+            }
+            else{
+                productOrder(productId, action, quantity)
+            }
+
+            // Selecting the input with name='size' 
             for(var i = 0; i < radios.length; i++) {
 
+                // if the input is of type 'radio' and is checked grab the value
                 if (radios[i].type === 'radio' && radios[i].checked) {
                     // get value, set checked flag
                     value = radios[i].value;
@@ -189,8 +252,10 @@
 
             }
 
+            // Selecting the input with name='color'
             for(var j = 0; j < colorRadios.length; j++){
                 
+                // if the input is of type 'radio' and is checked grab the value
                 if(colorRadios[j].type === 'radio' && colorRadios[j].checked){
                     colorName = colorRadios[j].value
                     console.log("colorName:", colorName)
@@ -198,10 +263,12 @@
             }
         })
 
+        // slect the input with class name 'size-radio'
         for(var i = 0; i < radioButton.length; i++){
             radioButton[i].addEventListener('click', productSize)
         }
 
+        // slect the input with class name 'color-radio'
         for(var i = 0;  i < colorRadioBtn.length; i++){
             colorRadioBtn[i].addEventListener('click', productColor)
         }
@@ -209,7 +276,9 @@
 
         function productSize(){
 
+            // Select the paragraph with id 'size-heading' that is the previous sibling of the labels
             var unselect = document.getElementById('size-heading')
+
             while (unselect = unselect.nextSibling){
                 if(unselect.tagName === 'LABEL'){
                     unselect.classList.remove('checked')
@@ -228,17 +297,60 @@
             }
             this.parentElement.classList.toggle('checked')
         }
+        // Radio buttons End
 
-        $(document).ready(function(){
-            var quantityInputValue = $('#quantity-input-field{{product.id}}').val()
-            console.log('quantityInputValue: ' + quantityInputValue)
+        //})
 
-            if(quantityInputValue == 1){
-                var inputIdString = 'button[data-product={{product.id}}][data-action=remove]'
-                var removeBtn = $(inputIdString)
-                removeBtn.addClass('quantity-btn-disabled')
+        // Same as addCookieItem() function in cart.js
+        function addCookieProduct(productId, action, quantity){
+            console.log("Not logged in...")
+
+            if(action == 'productAdd'){
+
+                if(cart[productId] == undefined){
+                    cart[productId] = {'quantity': 1}
+                }
+                else{
+                    cart[productId]['quantity'] += quantity
+                }
+        
             }
-        })
+            var cartTotalQuantity = cart[productId]['quantity']
+            document.getElementById("cart-total").innerHTML = cartTotalQuantity
+            console.log('Cart:', cart)
+            document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/"
+            location.reload()
+        }
+
+        function productOrder(productId, action, quantity){
+            console.log('User is logged in, sending data...')
+
+            var url = '/product_order/'
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({'productId': productId, 'action': action, 'quantity': quantityInputValue})
+            })
+
+            .then((response) =>{
+                return response.json()
+            })
+            .then((data) => {
+                console.log('data:', data)
+                console.log('quantity:', quantityInputValue)
+                if (data.success){
+                    document.getElementById("cart-total").innerHTML = data.order
+                    console.log('productId:', productId)
+                    console.log('action:', action)
+                    console.log('quantity:', quantityInputValue)
+                }
+            })
+        }
+
     </script>
 
 {% endblock content %}

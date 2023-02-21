@@ -9,7 +9,7 @@ for(var i = 0; i < updateBtns.length; i++){
         console.log('ProductId:', productId, 'action:', action)
 
         console.log('User: ', user)
-
+ 
         if(user === 'AnonymousUser'){
             addCookieItem(productId, action)
         }
@@ -45,6 +45,8 @@ function addCookieItem(productId, action){
     if(action == 'delete'){
         delete cart[productId]
     }
+    
+
     console.log('Cart:', cart)
     document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/"
     location.reload()
@@ -85,49 +87,44 @@ function updateUserOrder(productId, action){
             document.getElementById("cart-total").innerHTML = data.order
             quantityInputId.value = data.each_item_quantity
 
-            var removeCartBtn = document.getElementById('cart-remove-product')
-            console.log('removeCartBtn:', removeCartBtn)
-            console.log('action:', data.action === 'delete')
-
             // Checks if it is the cart page
-            if(window.location.href.includes('cart')){
+            // if(window.location.href.includes('cart')){
 
-                let cartItemValue = document.getElementById("cart-item-value")
-                console.log('cartItemValue:', cartItemValue)
+            let cartItemValue = document.getElementById("cart-item-value")
 
-                cartItemValue.innerText = 'Cart (' + data.order + ' ' + (data.order === 1 ? 'item' : 'items') + ')'
+            cartItemValue.innerText = 'Cart (' + data.order + ' ' + (data.order === 1 ? 'item' : 'items') + ')'
 
-                // If the quantity is equal to 0 remove the item
-                 // Remove Item in the cart page if the 'Remove Item' button is clicked           
-                if(data.action == 'delete' || quantityInputId.value == 0){
-                    
-                    var productDivId = 'cart-product-' + data.productId
-                    var productDiv = document.getElementById(productDivId)
-                    console.log('Removing item from cart')
-                    productDiv.remove()
-                    // let productDiv = removeCartBtn.parentNode
-                    console.log('productDiv:', productDiv)                  
-                }             
-            }
+            // If the quantity is equal to 0 remove the item
+                // Remove Item in the cart page if the 'Remove Item' button is clicked           
+            if(data.action == 'delete' || quantityInputId.value == 0){
+                
+                var productDivId = 'cart-product-' + data.productId
+                var productDiv = document.getElementById(productDivId)
+                console.log('Removing item from cart')
+                productDiv.remove()
+                // let productDiv = removeCartBtn.parentNode
+                console.log('productDiv:', productDiv)                  
+            }             
+            // }
 
             // Checks if it is the product detail page
-            if(window.location.href.includes('product_detail')){
+            // if(window.location.href.includes('product_detail')){
 
-                // disable the '-' and '+' buttons if the quantity is less than 1
-                // If the quantity is equal or less than 0 remove the item
-                if(quantityInputId.value == 1){
+            //     // disable the '-' and '+' buttons if the quantity is less than 1
+            //     // If the quantity is equal or less than 0 remove the item
+            //     if(quantityInputId.value == 1){
 
-                    // the querySelector finds a button with the class "data-product that has 'data-product == productID' and then removes it from the DOM"
-                    let removeBtn = document.querySelector(`button[data-product='${data.productId}'][data-action='remove']`);
-                    removeBtn.classList.add('quantity-btn-disabled');
+            //         // the querySelector finds a button with the class "data-product that has 'data-product == productID' and then removes it from the DOM"
+            //         let removeBtn = document.querySelector(`button[data-product='${data.productId}'][data-action='remove']`);
+            //         removeBtn.classList.add('quantity-btn-disabled');
 
-                }
-                if(quantityInputId.value > 1){
-                    let removeBtn = document.querySelector(`button[data-product='${data.productId}'][data-action='remove']`);
-                    removeBtn.classList.remove('quantity-btn-disabled');
+            //     }
+            //     if(quantityInputId.value > 1){
+            //         let removeBtn = document.querySelector(`button[data-product='${data.productId}'][data-action='remove']`);
+            //         removeBtn.classList.remove('quantity-btn-disabled');
 
-                }
-            }
+            //     }
+            // }
                             
         }
         else{

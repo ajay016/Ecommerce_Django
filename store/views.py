@@ -49,6 +49,7 @@ def store(request):
     # context = {'products': products, 'order': order}
     return render(request, 'store/store.html', context)
 
+
 def cart(request):
     
     data = cartData(request)
@@ -63,12 +64,42 @@ def cart(request):
     # cartItems shows the item quantity in the cart icon, not an efficient way to do it
     context = {'items': items, 'order': order, 'cartItems': cartItems}    
     # print('Items:', items)
-    for i in items:
-        p.append(i.product.id)
+    
+    # for i in items:
+    #     p.append(i.product)
 
-    print(p)
+    # print(p)
     # context = {'items': items, 'order': order}
     return render(request, 'store/cart.html', context)
+
+
+def productDetail(request, id):
+
+    data = cartData(request)
+    items = data['items']
+    order = data['order']
+    cartItems = data['cartItems']
+    product = Product.objects.get(id=id)
+    
+    print('items:', items)
+    product_quantity = 1
+    # for i in items:
+    #     if i.product.id == product.id:
+    #         product_quantity = i.quantity
+    # print('product_quantity:', product_quantity)
+
+    # print(product.id)
+    
+    context = {
+        'product': product,
+        'cartItems': cartItems,
+        'items': items,
+        'order': order,
+        'product_quantity': product_quantity
+        }
+    
+    return render(request, 'store/product.html', context)
+
 
 def checkout(request):
             
@@ -81,9 +112,10 @@ def checkout(request):
     context = {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer}
     return render(request, 'store/checkout.html', context)
 
+
 def updateItem(request):
     
-    # the request is from 'cart.js' fetch url, data is the value mof the json response from the 'cart.js'
+    # the request is from 'cart.js' fetch url, data is the value of the json response from the 'cart.js'
     data = json.loads(request.body)
     productId = data['productId']
     action = data['action']
@@ -105,22 +137,48 @@ def updateItem(request):
         
     elif action == 'remove':
         orderItem.quantity -= 1
-        orderItem.save()
-    
-        
+        orderItem.save()  
+      
     elif action == 'delete':
         orderItem.delete()
-        
-    # orderItem.save()
-    
+         
     if orderItem.quantity <= 0:
         orderItem.delete()
+
 
     cart_quantity = order.get_cart_items
     each_item_quantity = orderItem.quantity
 
     # return JsonResponse('Item was added', safe=False)
     return JsonResponse({'success':True, 'order': cart_quantity, 'each_item_quantity': each_item_quantity, 'productId': productId, 'action': action})
+
+
+def productOrder(request):
+
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    quantity = data['quantity']
+
+    print('Action:', action)
+    print('ProductId:', productId)
+    print('quantity:', quantity)
+    
+    customer = request.user.customer
+    product = Product.objects.get(id=productId)
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    
+    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+
+    if action == 'productAdd':
+        orderItem.quantity += quantity
+        orderItem.save()
+
+    cart_quantity = order.get_cart_items
+    each_item_quantity = orderItem.quantity
+
+    return JsonResponse({'success':True, 'order': cart_quantity, 'each_item_quantity': each_item_quantity, 'productId': productId, 'action': action, 'quantity': quantity})
+
 
 def processOrder(request):
     transaction_id = datetime.datetime.now().timestamp()
@@ -160,30 +218,3 @@ def processOrder(request):
             print('data: ', data)
         
     return JsonResponse('Payment Complete', safe=False)
-
-def productDetail(request, id):
-
-    data = cartData(request)
-    items = data['items']
-    order = data['order']
-    cartItems = data['cartItems']
-    product = Product.objects.get(id=id)
-
-    try:
-        order_item = OrderItem.objects.get(product=product)
-        product_quantity = order_item.quantity
-        print(product_quantity)
-    
-    except:
-        product_quantity = 1
-
-
-    context = {
-        'product': product,
-        'cartItems': cartItems,
-        'items': items,
-        'order': order,
-        'product_quantity': product_quantity
-        }
-    
-    return render(request, 'store/product.html', context)
