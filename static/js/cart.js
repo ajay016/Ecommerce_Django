@@ -21,6 +21,7 @@ for(var i = 0; i < updateBtns.length; i++){
 
 function addCookieItem(productId, action){
     console.log("Not logged in...")
+    var url = '/cookie_order/'
 
     if(action == "add"){
         if(cart[productId] == undefined){
@@ -49,7 +50,55 @@ function addCookieItem(productId, action){
 
     console.log('Cart:', cart)
     document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/"
-    location.reload()
+    // var cartTotalQuantity = window.cartItems
+    // document.getElementById("cart-total").innerHTML = cartTotalQuantity
+    // location.reload()
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({'productId': productId, 'action': action})
+    })
+
+    .then((response) => {
+        return response.json()
+    })
+
+    .then((data) => {
+        if(data.success){
+            console.log('data:', data)
+            document.getElementById("cart-total").innerHTML = data.cartItems
+
+            var dynamicProductId = 'quantity-input-field' + data.productId
+            console.log('product_id:', data.productId)
+            var quantityInputId = document.getElementById(dynamicProductId)
+            quantityInputId.value = data.each_item_quantity
+            let cartItemValue = document.getElementById("cart-item-value")
+
+            cartItemValue.innerText = 'Cart (' + data.cartItems + ' ' + (data.cartItems === 1 ? 'item' : 'items') + ')'
+
+            if(data.action == 'delete' || quantityInputId.value == 0){
+                
+                var productDivId = 'cart-product-' + data.productId
+                var productDiv = document.getElementById(productDivId)
+                console.log('Removing item from cart')
+                
+                delete cart[productId]
+            
+                productDiv.remove()
+                // let productDiv = removeCartBtn.parentNode
+                console.log('productDiv:', productDiv)                  
+            } 
+        }
+        else{
+            console.error('Error updating cart item:')
+        }
+        
+    })
+
 }
 
 function updateUserOrder(productId, action){

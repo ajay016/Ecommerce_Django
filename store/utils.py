@@ -16,7 +16,7 @@ def cookieCart(request):
     items = []
     order = {'get_cart_total': 0, 'get_cart_items': 0 , 'shipping': False}
     
-    # cartItems shows the item quantity in the cart icon, not an efficient way to do it
+    # cartItems shows the total items quantity in the cart icon, not an efficient way to do it
     cartItems = order['get_cart_items']
     
     # loop through the cart dictionary, cart contains "2: '{quantity: 1}'", where '2' is the productID
@@ -54,7 +54,7 @@ def cookieCart(request):
             
             items.append(item)
             
-            #print('Order:', order)
+            # print('Order:', order)
             if product.digital == False:
                 order['shipping'] = True
         

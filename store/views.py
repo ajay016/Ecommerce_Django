@@ -177,7 +177,51 @@ def productOrder(request):
     cart_quantity = order.get_cart_items
     each_item_quantity = orderItem.quantity
 
-    return JsonResponse({'success':True, 'order': cart_quantity, 'each_item_quantity': each_item_quantity, 'productId': productId, 'action': action, 'quantity': quantity})
+    # once the data is sent to frontend and the quantity is updated in the database, the quantity in the input field will be reset to 1
+    reset_quantity = 1
+
+
+    return JsonResponse({'success':True, 'order': cart_quantity, 'each_item_quantity': each_item_quantity,
+                         'productId': productId, 'action': action, 'quantity': quantity, 'reset_quantity': reset_quantity})
+
+
+
+def cookieOrder(request):
+    cookie_data = cookieCart(request)
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    items = cookie_data['items']
+    order = cookie_data['order']
+    cartItems = cookie_data['cartItems']
+    cart = []
+
+    if cart == items:
+        each_item_quantity = 0
+
+    try:
+        for product_quantity in items:
+            if int(product_quantity['product']['id']) == int(productId):
+                print(product_quantity['product']['id'])
+                each_item_quantity = product_quantity['quantity']
+                print(True)
+                break
+            else:
+                each_item_quantity = 0
+                print('Else:', False)
+    except:
+        each_item_quantity = 0
+        print('except:', each_item_quantity)
+            
+    # print('ProductId: ', productId)
+    print('Cokkie order:', items)
+    print('cookie: ', cookie_data)
+    print('action: ', action)
+    print('each_item_quantity:', each_item_quantity)
+    # print('productId: ', items['product']['id'])
+    # print(each_item_quantity)
+
+    return JsonResponse({'success':True, 'items': items, 'order': order, 'cartItems': cartItems, 'productId': productId, 'action': action, 'each_item_quantity': each_item_quantity})
 
 
 def processOrder(request):

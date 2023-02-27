@@ -307,8 +307,8 @@
 
             if(action == 'productAdd'){
 
-                if(cart[productId] == undefined){
-                    cart[productId] = {'quantity': 1}
+                if(cart[productId] == undefined){    
+                    cart[productId] = {'quantity': quantityInputValue}
                 }
                 else{
                     cart[productId]['quantity'] += quantity
@@ -347,6 +347,17 @@
                     console.log('productId:', productId)
                     console.log('action:', action)
                     console.log('quantity:', quantityInputValue)
+
+                    // The product quantity in the input field is rest to 1 once the quantity is updated in the cart
+                    document.getElementById('quantity-input-field{{product.id}}').value = parseInt(data.reset_quantity)
+                    quantityInputValue = parseInt(data.reset_quantity)
+
+                    // If value the quantity = 1 in the input field disable the minus button
+                    if(quantityInputValue == 1){
+                        
+                        // var inputIdString = 'button[data-product={{product.id}}][data-action=remove]'
+                        quantityDecrease.addClass('quantity-btn-disabled')
+                    }
                 }
             })
         }
