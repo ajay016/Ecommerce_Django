@@ -31,6 +31,24 @@
 
         </nav>
 
+        <!--Add to Cart Toast notification-->
+
+        <div class="toast-notification">
+            <div class="toast-content">
+                <i class="fa-sharp fa-solid fa-check check"></i>
+
+                <div class="message">
+                    <span class="text text-1">Success</span>
+                    <span class="text text-2">Added to Cart</span>
+                </div>
+            </div>
+
+            <i class="fa-sharp fa-solid fa-xmark close"></i>
+
+            <div class="progress"></div>
+        </div>
+
+        <!--Add to Cart Toast notification-->
         
         <div class="product-details w-100 px-2">
             {% comment %} <div class="row mb-2"> {% endcomment %}
@@ -39,8 +57,10 @@
                 <div class="product-details-image-div col-lg-5 col-md-4 col-11 px-2">
                     <img src="{{product.imageURL}}" class="product-details-image" alt="">
                     <div>
-                        <p>images</p>
+                        <p>Images of product</p>
+                        
                     </div>
+                    
                 </div>
 
                 <!--Product details-->
@@ -66,6 +86,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="product-about">
                         <h5><span>About</span></h5>
                     </div>
@@ -157,10 +178,8 @@
                         
                     
                 </div>
-
-                {% comment %} </div> {% endcomment %}
             </div>
-            {% comment %} </div> {% endcomment %}
+            
         </div>
     </div>
 
@@ -172,6 +191,10 @@
         var addToCartBtn = document.getElementById('shipping-button')
         var colorRadios = document.getElementsByName('color')
         var colorRadioBtn = document.getElementsByClassName('color-radio')
+
+        var toastNotification = document.querySelector('.toast-notification')
+        var closeIcon = document.querySelector('.close')
+        var progressBar = document.querySelector('.progress')
  
         // if the product is not in the cart or the product quantity is 1, disable the '-' quantity button
         //$(document).ready(function(){
@@ -261,6 +284,15 @@
                     console.log("colorName:", colorName)
                 }
             }
+            
+        })
+
+        closeIcon.addEventListener('click', () => {
+            toastNotification.classList.remove('active')
+
+            setTimeout(() =>{
+                progressBar.classList.remove('active')
+            }, 300)
         })
 
         // slect the input with class name 'size-radio'
@@ -272,7 +304,6 @@
         for(var i = 0;  i < colorRadioBtn.length; i++){
             colorRadioBtn[i].addEventListener('click', productColor)
         }
-
 
         function productSize(){
 
@@ -358,6 +389,17 @@
                         // var inputIdString = 'button[data-product={{product.id}}][data-action=remove]'
                         quantityDecrease.addClass('quantity-btn-disabled')
                     }
+
+                    toastNotification.classList.add('active')
+                    progressBar.classList.add('active')
+
+                    setTimeout(() =>{
+                        toastNotification.classList.remove('active')
+                    }, 5000)   //5000ms = 5s
+
+                    setTimeout(() =>{
+                        progressBar.classList.remove('active')
+                    }, 5300)
                 }
             })
         }
