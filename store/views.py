@@ -12,6 +12,9 @@ def store(request):
     cartItems = data['cartItems']
     
     products = Product.objects.all()
+
+    main_catagories = MainCategory.objects.all()
+    print(main_catagories)
     
     # check if the user is authenticated
     # if the user is authenticated, return the no. of item in the acrt and the cart total
@@ -45,7 +48,7 @@ def store(request):
     #     cartItems = order['get_cart_items']
         
     # cartItems shows the item quantity in the cart icon, not an efficient way to do it
-    context = {'products': products, 'order': order, 'cartItems': cartItems}
+    context = {'products': products, 'order': order, 'cartItems': cartItems, 'main_catagories': main_catagories}
     # context = {'products': products, 'order': order}
     return render(request, 'store/store.html', context)
 

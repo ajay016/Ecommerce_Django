@@ -40,7 +40,7 @@ h1,h2,h3,h4,h5,h6{
 } */
 
 .all-product-name {
-	height: 50px;
+	height: 55px;
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
@@ -72,6 +72,11 @@ h1,h2,h3,h4,h5,h6{
 /* .product-child {
 	transition: 0.5s;
 } */
+
+.flash-sale-div {
+	width: 100%;
+	overflow: hidden;
+}
 
 .product-div {
 	transition: 0.3s;
@@ -149,6 +154,10 @@ h1,h2,h3,h4,h5,h6{
 	margin-left: 20px;
 }
 
+.shop-categories {
+	color: #fff;
+}
+
 .login-link {
 	color: #fff;
 	font-weight: 500;
@@ -184,6 +193,7 @@ h1,h2,h3,h4,h5,h6{
 .custom-navbar {
 	/* background: rgb(219,113,191);
 	background: linear-gradient(90deg, rgba(219,113,191,1) 0%, rgba(253,92,29,1) 63%); */
+	height: 60px;
 	background: rgb(255,87,87);
 	background: linear-gradient(90deg, rgba(255,87,87,1) 0%, rgba(253,92,29,1) 63%);
 }
@@ -335,6 +345,157 @@ p.quantity {
 	height: 400px;
 }
 
+/* Flash sale starts*/
+
+.flash-sale-text {
+	font-size: 20px;
+	color: #fff;
+}
+
+/* background: rgb(255,87,87);
+	background: linear-gradient(90deg, rgba(255,87,87,1) 0%, rgba(253,92,29,1) 63%); */
+
+.flash-sale-heading {
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 5s ease infinite;
+  }
+  
+  @keyframes gradient {
+	0% {
+	  background-position: 0% 50%;
+	}
+	50% {
+	  background-position: 100% 50%;
+	}
+	100% {
+	  background-position: 0% 50%;
+	}
+  }
+
+.flash-sale-heading-inner {
+	max-width: 1400px;
+}
+
+.flash-sale-div {
+	overflow-x: auto;
+	scroll-behavior: smooth;
+}
+
+.home-sidebar {
+	width: 250px;
+	height: 400px;
+	position: absolute;
+	top: 0;
+	left: 250px;
+	background: rgb(252, 90, 78);
+	user-select: none;
+	box-sizing: border-box;
+	opacity: 0.8;
+	/* background: linear-gradient(90deg, rgba(255,87,87,1) 0%, rgba(253,92,29,1) 63%); */
+}
+
+.home-sidebar ul {
+	list-style: none;
+	margin-left: 0px !important;
+	width: 100%;
+}
+
+.home-sidebar ul ul {
+	position: absolute;
+	top: 0;
+	left: 250px;
+	width: 250px;
+	padding-left: 0;
+	display: none;
+	background: rgb(252, 90, 78);
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.home-sidebar ul .sidebar-dropdown {
+	position: relative;
+}
+
+.home-sidebar ul .sidebar-dropdown span {
+	position: absolute;
+	left: 220px;
+}
+
+.home-sidebar ul .sidebar-dropdown:hover ul {
+	display: initial;
+}
+
+.home-sidebar .home-sidebar-heading {
+	display: flex;
+	justify-content: center;
+	color: #fff;
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.home-sidebar ul li {
+	cursor: pointer;
+	line-height: 40px;
+	border-bottom: 1px solid #9e1212;
+}
+
+/* .home-sidebar ul li:hover {
+	background-color: #fff;
+} */
+
+.home-sidebar ul li a {
+	display: flex;
+	text-decoration: none;
+	padding: 0 15px;
+	color: #fff;
+	font-size: 15px;
+	font-weight: 400;
+}
+
+.home-sidebar ul li a:hover {
+	background-color: #c50000;
+	color: #ffffff;
+}
+
+.flash-sale-product-div {
+	position: relative;
+}
+
+.product-slider-left-arrow-btn {
+	background-color: #fff;
+	border: none;
+}
+
+.product-slider-right-arrow-btn {
+	background-color: #fff;
+	border: none;
+	position: relative;
+	left: 100%;
+}
+
+
+.product-slider-left-btn {
+	font-size: 30px;
+	/* position: relative; */
+	color: #4d4949;
+}
+
+.product-slider-right-btn {
+	font-size: 30px;
+	/* position: relative; */
+	color: #4d4949;
+}
+
+.product-slider-right-btn {
+	font-size: 30px;
+	position: relative;
+	top: 200px;
+	color: #4d4949;
+}
+
+/* Flash sale ends*/
+
 .site-footer {
 	padding: 5em 0;
 	background: rgb(255,87,87);
@@ -452,7 +613,7 @@ p.quantity {
 .sidebar {
 	width: 300px;
 	height: 100vh;
-	position: sticky;
+	
 	background: linear-gradient(135deg, rgba(255,87,87,1) 0%, rgba(253,92,29,1) 63%);
 	
 }

@@ -14,6 +14,26 @@ class Customer(models.Model):
     def __str__(self):
         return self.first_name or ''
     
+class MainCategory(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name or ''
+    
+class Category(models.Model):
+    main_category = models.ForeignKey(MainCategory, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name or ''
+    
+class SubCategory(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name or ''
+
 class Product(models.Model):
     
     name = models.CharField(max_length=200)
