@@ -21,18 +21,18 @@ class MainCategory(models.Model):
         return self.name or ''
     
 class Category(models.Model):
-    main_category = models.ForeignKey(MainCategory, on_delete=models.CASCADE)
+    main_category = models.ForeignKey(MainCategory, on_delete=models.CASCADE, related_name='categories')
     name = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.name or ''
+        return self.main_category.name + '--' + self.name or ''
     
 class SubCategory(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='sub_categories')
     name = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.name or ''
+        return self.category.main_category.name + '--' + self.category.name + '--' + self.name or ''
 
 class Product(models.Model):
     

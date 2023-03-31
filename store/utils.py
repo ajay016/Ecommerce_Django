@@ -116,6 +116,7 @@ def guestOrder(request, data):
     
     # Create a customer with his email if he is not registered. We get this email from the checkout form and is passed here in json format by using javascript in 'checkout.html' file
     customer, created = Customer.objects.get_or_create(email=email, first_name=first_name)
+    
     # Cusomer may want to change his email. This is why we write this code outside the 'get_or_create' method
     # customer.first_name = first_name
     customer.last_name = last_name
