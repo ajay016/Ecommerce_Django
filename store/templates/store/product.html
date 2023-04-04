@@ -31,7 +31,7 @@
 
         </nav>
 
-        <!--Add to Cart Toast notification-->
+        <!--Add to Cart Toast notification starts-->
 
         <div class="toast-notification">
             <div class="toast-content">
@@ -48,17 +48,36 @@
             <div class="progress"></div>
         </div>
 
-        <!--Add to Cart Toast notification-->
+        <!--Add to Cart Toast notification ends-->
         
         <div class="product-details w-100 px-2">
             {% comment %} <div class="row mb-2"> {% endcomment %}
             <div class="col-md-12 col-12 d-lg-flex">
                 {% comment %} <div class="row gx-3"> {% endcomment %}
                 <div class="product-details-image-div col-lg-5 col-md-4 col-11 px-2">
-                    <img src="{{product.imageURL}}" class="product-details-image" alt="">
-                    <div>
-                        <p>Images of product</p>
+                    <img src="{{product.imageURL}}" id="primary-image" class="product-details-image" alt="">
+                    <div class="small-images-grp">
+
+                        <div class="small-image-column col-2">
+                            <img src="{{ product.imageURL }}" class="small-img-thumbnails thumbnail-active" alt="">
+                        </div>
+
+                        <div class="small-image-column col-2">
+                            <img src="{% static 'images/tshirt1.jpg' %}" class="small-img-thumbnails" alt="">
+                        </div>
+
+                        <div class="small-image-column col-2">
+                            <img src="{% static 'images/tshirt2.jpg' %}" class="small-img-thumbnails" alt="">
+                        </div>
+
+                        <div class="small-image-column col-2">
+                            <img src="{% static 'images/tshirt1.jpg' %}" class="small-img-thumbnails" alt="">
+                        </div>
                         
+                        <div class="small-image-column col-2">
+                            <img src="{% static 'images/tshirt2.jpg' %}" class="small-img-thumbnails" alt="">
+                        </div>
+
                     </div>
                     
                 </div>
@@ -195,6 +214,10 @@
         var toastNotification = document.querySelector('.toast-notification')
         var closeIcon = document.querySelector('.close')
         var progressBar = document.querySelector('.progress')
+
+        // Small Images thumnails variables
+        var thumbnails = document.getElementsByClassName('small-img-thumbnails')
+        var activeImages = document.getElementsByClassName('thumbnail-active')
  
         // if the product is not in the cart or the product quantity is 1, disable the '-' quantity button
         //$(document).ready(function(){
@@ -204,6 +227,22 @@
         var quantityInputValue = parseInt($('#quantity-input-field{{product.id}}').val())
         var quantityDecrease = $('#quantity-decrease')
         var quantityIncrease = $('#quantity-increase')
+
+        // Small Images thumnails starts
+        for(var i = 0; i < thumbnails.length; i++){
+
+            thumbnails[i].addEventListener('mouseover', function(){
+
+                if(activeImages.length > 0){
+                    activeImages[0].classList.remove('thumbnail-active')
+                }
+
+                this.classList.add('thumbnail-active')
+                document.getElementById('primary-image').src = this.src
+
+            })
+        }
+        // Small Images thumnails ends
 
         console.log('quantityInputValue: ' + quantityInputValue)
         console.log('User: ', user)
@@ -287,6 +326,7 @@
             
         })
 
+        // toast notification starts
         closeIcon.addEventListener('click', () => {
             toastNotification.classList.remove('active')
 
@@ -294,6 +334,7 @@
                 progressBar.classList.remove('active')
             }, 300)
         })
+        // Toast notification ends
 
         // slect the input with class name 'size-radio'
         for(var i = 0; i < radioButton.length; i++){

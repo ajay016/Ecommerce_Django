@@ -15,8 +15,8 @@ def store(request):
 
     main_categories = MainCategory.objects.all()
     a = MainCategory.objects.get(id=1)
-    categories = a.categories.all()
-    print(categories)
+    flash_sale_products = Product.objects.filter(flash_sale=True)
+    print('flash sale: ', flash_sale_products)
     
     # check if the user is authenticated
     # if the user is authenticated, return the no. of item in the acrt and the cart total

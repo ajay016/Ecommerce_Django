@@ -386,6 +386,8 @@ p.quantity {
 	scroll-behavior: smooth;
 }
 
+/* Sidebar starts */
+
 .home-sidebar {
 	width: 250px;
 	height: 400px;
@@ -473,11 +475,16 @@ p.quantity {
     padding: 0px 5px;
 }
 
-  
-  .home-sidebar ul .category-item > a:hover {
-	background-color: #c50000;
+.category-column p span{
+	font-weight: 500;
 	color: #ffffff;
-  }
+	text-shadow: 1px 1px rgb(3, 17, 63);
+}
+
+.home-sidebar ul .category-item > a:hover {
+background-color: #c50000;
+color: #ffffff;
+}
   
 
 
@@ -495,6 +502,8 @@ p.quantity {
 	background-color: #c50000;
 	color: #ffffff;
 }
+
+/* Sidebar ends */
 
 .flash-sale-product-div {
 	position: relative;
@@ -646,7 +655,8 @@ p.quantity {
 	object-fit: contain;
 }
 
-/* Sidebar */
+/* Product Detail Page ---> product.html */
+/* Product Details Sidebar */
 
 .sidebar {
 	width: 300px;
@@ -677,10 +687,41 @@ p.quantity {
 	border-bottom: 1px solid rgba(222, 226, 218, 1);
 }
 
+/* Product Details Sidebar ends */
+
 .product-details-image {
 	width: 100%;
 	height: auto;
 }
+
+/* Small images thumbnails starts */
+
+.small-images-grp{
+	display: flex;
+	position: relative;
+	justify-content: center;
+}
+
+.small-image-column{
+	padding: 5px;
+}
+
+.small-img-thumbnails {
+	width: 100%;
+	height: 70px;
+	cursor: pointer;
+	opacity: 0.6;
+}
+
+.small-img-thumbnails:hover{
+	opacity: 1;
+}
+
+.thumbnail-active{
+	opacity: 1;
+}
+
+/* Small images thumbnails ends */
 
 .product-details-category {
 	font-size: 13px;
