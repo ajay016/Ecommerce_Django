@@ -268,7 +268,8 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .btn-primary:hover {
-	background-color: rgb(243, 77, 0) !important;
+	background-color: #ec8129 !important;
+	color: white !important;
 }
 
 .add-btn {
@@ -276,6 +277,16 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .btn-checkout {
+	width: 100%;
+	height: 45px;
+}
+
+.forgot-password{
+	display: flex;
+	justify-content: center;
+}
+
+.iti--allow-dropdown{
 	width: 100%;
 }
 
@@ -542,6 +553,42 @@ color: #ffffff;
 }
 
 /* Flash sale ends*/
+
+/* Login and Signup page starts */
+
+.login-form-row{
+	background-color: rgb(243, 243, 243);
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+	border-radius: 20px;
+}
+
+.login-page-photo{
+	/* border-radius: 20px; */
+	border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+}
+
+.login-page-logo{
+	width: 100px;
+	height: auto;
+	margin-bottom: 20px;
+}
+
+.form-control:focus {
+	border-color: #e0652c;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+.create-account-btn{
+	border-radius: 10px;
+	background-color: #ff5757;
+	/* background-color: rgb(219,113,191); */
+	height: 45px;
+	color: #fff;
+	border: 4px;
+}
+
+/* Login and Signup page ends */
 
 .site-footer {
 	padding: 5em 0;

@@ -117,6 +117,16 @@ def checkout(request):
     context = {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer}
     return render(request, 'store/checkout.html', context)
 
+def login(request):
+
+
+    return render(request, 'store/login.html')
+
+def signup(request):
+
+
+    return render(request, 'store/signup.html')
+
 
 def updateItem(request):
     
