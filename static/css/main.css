@@ -557,7 +557,12 @@ color: #ffffff;
 /* Login and Signup page starts */
 
 .login-form-row{
-	background-color: rgb(243, 243, 243);
+	background-color: rgb(255, 182, 47);
+
+	/* background: #159957; 
+	background: -webkit-linear-gradient(to right, #155799, #159957);  
+	background: linear-gradient(to right, #155799, #159957); */
+
 	box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
 	border-radius: 20px;
 }
@@ -580,12 +585,53 @@ color: #ffffff;
 }
 
 .create-account-btn{
+	width: 100%;
 	border-radius: 10px;
 	background-color: #ff5757;
 	/* background-color: rgb(219,113,191); */
 	height: 45px;
 	color: #fff;
 	border: 4px;
+}
+
+.signup-btn{
+	width: 100%;
+	border-radius: 10px;
+	/* background-color: #a725c7; */
+	/* background-color: rgb(219,113,191); */
+	background: #283048;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	height: 45px;
+	color: #fff;
+	border: 4px;
+}
+
+.signup-btn:hover{
+	/* background-color: #106197 !important; */
+	background: #59C173;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #5D26C1, #a17fe0, #59C173);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #5D26C1, #a17fe0, #59C173); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	color: white !important;
+}
+
+.signup-login-btn{
+	border-radius: 10px;
+	/* background-color: #a725c7; */
+	/* background-color: rgb(219,113,191); */
+	background: #283048;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	height: 45px;
+	color: #fff;
+	border: 4px;
+}
+
+.signup-login-btn:hover{
+	background: #59C173;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #5D26C1, #a17fe0, #59C173);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #5D26C1, #a17fe0, #59C173); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	color: white !important;
 }
 
 /* Login and Signup page ends */
