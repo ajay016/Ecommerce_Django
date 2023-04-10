@@ -1,0 +1,3 @@
+backup fixtures
+
+python manage.py dumpdata store.MainCategory, store.Category, store.SubCategory, store.Product, store.ProductImage, store.Order, store.OrderItem, store.ShippingAddress --format json --indent 4 >store/fixtures/store.json

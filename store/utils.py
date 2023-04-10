@@ -65,8 +65,9 @@ def cookieCart(request):
 
 def cartData(request):
     if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        # customer = request.user.customer
+        user = request.user
+        order, created = Order.objects.get_or_create(user=user, complete=False)
         items = order.orderitem_set.all()
         
         # showing the item quantity in the cart icon, not an efficient way to do it
@@ -90,12 +91,13 @@ def cartData(request):
         order = cookieData['order']
         cartItems = cookieData['cartItems']
         try:
-            customer = request.user.customer
+            # customer = request.user.customer
+            user = request.user
         except :
-            customer = {}
+            user = {}
         
-    print('Customer:', customer)
-    return {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer}
+    print('user:', user)
+    return {'items': items, 'order': order, 'cartItems': cartItems, 'user': user}
 
 def guestOrder(request, data):
     
@@ -115,18 +117,18 @@ def guestOrder(request, data):
     items = cookieData['items']
     
     # Create a customer with his email if he is not registered. We get this email from the checkout form and is passed here in json format by using javascript in 'checkout.html' file
-    customer, created = Customer.objects.get_or_create(email=email, first_name=first_name)
+    user, created = User.objects.get_or_create(email=email, first_name=first_name)
     
     # Cusomer may want to change his email. This is why we write this code outside the 'get_or_create' method
     # customer.first_name = first_name
-    customer.last_name = last_name
-    customer.phone = phone
-    customer.save()
+    user.last_name = last_name
+    user.phone = phone
+    user.save()
     
     # Create order
     # Both authenticated and unauthenticated user need to have order and orderItems
     order = Order.objects.create(
-        customer = customer,
+        user = user,
         complete = False
     )
     
@@ -141,4 +143,4 @@ def guestOrder(request, data):
             quantity = item['quantity']
         )
     
-    return customer, order
+    return user, order

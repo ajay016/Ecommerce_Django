@@ -14,7 +14,7 @@ def store(request):
     products = Product.objects.all()
 
     main_categories = MainCategory.objects.all()
-    a = MainCategory.objects.get(id=1)
+    # a = MainCategory.objects.get(id=1)
     flash_sale_products = Product.objects.filter(flash_sale=True)
     print('flash sale: ', flash_sale_products)
     
@@ -112,9 +112,9 @@ def checkout(request):
     items = data['items']
     order = data['order']
     cartItems = data['cartItems']
-    customer = data['customer']
+    user = data['user']
         
-    context = {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer}
+    context = {'items': items, 'order': order, 'cartItems': cartItems, 'user': user}
     return render(request, 'store/checkout.html', context)
 
 def login(request):
@@ -138,9 +138,9 @@ def updateItem(request):
     print('Action:', action)
     print('ProductId:', productId)
     
-    customer = request.user.customer
+    user = request.user
     product = Product.objects.get(id=productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    order, created = Order.objects.get_or_create(user=user, complete=False)
     
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
     
@@ -179,9 +179,10 @@ def productOrder(request):
     print('ProductId:', productId)
     print('quantity:', quantity)
     
-    customer = request.user.customer
+    # customer = request.user.customer
+    user = request.user
     product = Product.objects.get(id=productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    order, created = Order.objects.get_or_create(user=user, complete=False)
     
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
@@ -244,12 +245,12 @@ def processOrder(request):
     data = json.loads(request.body)
     
     if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        user = request.user
+        order, created = Order.objects.get_or_create(user=user, complete=False)
         
     else:
         # 'guestOreder' function returns customer and order. The function has been created in utils.py file 
-        customer, order = guestOrder(request, data)
+        user, order = guestOrder(request, data)
             
     total = float(data['form']['total'])
     order.transaction_id = transaction_id
@@ -260,13 +261,13 @@ def processOrder(request):
         
     order.save()
     print('Complete:', order.complete)
-    print('Customer:', customer.first_name)
-    print('Customer:', customer.email)
-    print('Customer:', customer.phone)
+    print('user:', user.first_name)
+    print('user:', user.email)
+    print('user:', user.phone)
     
     if order.shipping == True:
             ShippingAddress.objects.create(
-                customer=customer,
+                user=user,
                 order=order,
                 address=data['shipping']['address'],
                 city=data['shipping']['city'],
