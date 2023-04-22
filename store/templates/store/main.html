@@ -20,174 +20,225 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     
-  <script type="text/javascript">
-    var user = '{{request.user}}'
+    <script type="text/javascript">
+        var user = '{{request.user}}'
 
-    function getToken(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-          const cookies = document.cookie.split(';');
-          for (let i = 0; i < cookies.length; i++) {
-              const cookie = cookies[i].trim();
-              // Does this cookie string begin with the name we want?
-              if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                  break;
-              }
-          }
-      }
-      return cookieValue;
-  }
-  const csrftoken = getToken('csrftoken');
+        function getToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getToken('csrftoken');
 
-  function getCookie(name){
-      // Split cookie string and get all individual name=value pairs in an array
-      var cookieArr = document.cookie.split(";");
+        function getCookie(name){
+            // Split cookie string and get all individual name=value pairs in an array
+            var cookieArr = document.cookie.split(";");
 
-      for(var i=0; i < cookieArr.length; i++){
-          var cookiePair = cookieArr[i].split("=");
+            for(var i=0; i < cookieArr.length; i++){
+                var cookiePair = cookieArr[i].split("=");
 
-          // Remove any whitespace from beginning of the cookie name and compare it with the given string
-          if(name==cookiePair[0].trim()){
-              // Decode the cookie value and return
-              return decodeURIComponent(cookiePair[1]);
-          }
-      }
-      return null
+                // Remove any whitespace from beginning of the cookie name and compare it with the given string
+                if(name==cookiePair[0].trim()){
+                    // Decode the cookie value and return
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null
 
-  }
+        }
 
-  var cart = JSON.parse(getCookie('cart'))
-  if(cart == undefined){
-      cart = {}
-      console.log("Cart was created")
-      document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/"
-  }
+        var cart = JSON.parse(getCookie('cart'))
+        if(cart == undefined){
+            cart = {}
+            console.log("Cart was created")
+            document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/"
+        }
 
-  console.log('Cart:', cart)
+        console.log('Cart:', cart)
 
-  </script>
+    </script>
 
 </head>
 <body>
   
-  <nav class="navbar navbar-expand-lg custom-navbar sticky-top p-0">
+    <nav class="navbar navbar-expand-lg custom-navbar sticky-top p-0">
 
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'store' %}">
-        <img class="ecom-logo" src="{% static 'images/ecom-logo.png' %}" alt="" width="50" height="50">
-      </a>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'store' %}">
+                <img class="ecom-logo" src="{% static 'images/ecom-logo.png' %}" alt="" width="50" height="50">
+            </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-      <div class="collapse navbar-collapse" id="main_menu">
+            <div class="collapse navbar-collapse" id="main_menu">
 
-        <!--
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="">Shop</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="">Electronics</a></li>
-              <li><a class="dropdown-item" href="">Fashion</a></li>
-              <li><a class="dropdown-item" href="">Sports</a></li>
-              <li><a class="dropdown-item" href="">Home & Lifestyle</a></li>
-            </ul>
-          </li>
-        </ul>
-        -->
-        <a id="shop-categories-link" class="nav-link me-auto shop-categories" href="">Shop</a>
-        <!--Search-->
-        <form class="d-flex col-sm-8">
-          <input class="form-control custom-search-bar" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success search-btn" type="submit"><img src="{% static 'images/search.png' %}" alt="" width="30" height="28"></button>
-        </form>
-        <!--Search-->
+                <!--
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="">Electronics</a></li>
+                            <li><a class="dropdown-item" href="">Fashion</a></li>
+                            <li><a class="dropdown-item" href="">Sports</a></li>
+                            <li><a class="dropdown-item" href="">Home & Lifestyle</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                -->
+                <a id="shop-categories-link" class="nav-link me-auto shop-categories" href="">Shop</a>
+                <!--Search-->
+                <form class="d-flex col-sm-8">
+                    <input class="form-control custom-search-bar" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success search-btn" type="submit"><img src="{% static 'images/search.png' %}" alt="" width="30" height="28"></button>
+                </form>
+                <!--Search-->
 
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link login-link" href="{% url 'login' %}">Login</a></li>
-          <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="{% url 'cart' %}"><img id="cart-icon" src="{% static 'images/cart1.png' %}"></a></li>
-            <p id="cart-total">{{ cartItems }}</p>
-      
-          </ul>
+                {% comment %} <div class="navbar-nav ms-auto"> {% endcomment %}
+                    <ul class="navbar-nav ms-auto">
+                        {% if request.user.is_authenticated %}
+                            <!-- <li class="nav-item"><a class="nav-link login-link" href="{% url 'logout' %}">{{ request.user }}</a></li> -->
+                            <li class="nav-item user-profile-view px-2 ms-auto">
+                                <img src="{% static 'images/user-profile-avatar6.png' %}" alt="" id="user-profile-logo">
+                                <ul id="user-profile" class="p-0">
+                                    <li class="user-profile-list px-2 py-3" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+                                        <a href="#"><span><i class="fa-solid fa-pencil px-3" style="color: #ff6600;"></i>Edit User</span></a>
+                                    </li>
+                                    <hr class="m-0"> 
 
-        </ul>
-      </div>
+                                    <li class="user-profile-list px-2 py-3">
+                                        <a href=""><span><i class="fa-sharp fa-solid fa-gear fa-shake px-3" style="color: #ff6600;"></i>Settings</span></a>
+                                    </li>
+                                    <hr class="m-0">
 
-    </div>
-  </nav>
+                                    <li class="user-profile-list px-2 py-3" style="border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+                                        <a href="{% url 'logout' %}"><span><i class="fa-solid fa-right-from-bracket fa-beat px-3" style="color: #ff6600;"></i>Logout</span></a>
+                                    </li>
+                                </ul>
+                            </li>
 
+                            <div class="submenu-wrap">
+                                <div class="submenu">
+                                    <div class="user-info"></div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link login-link" href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                        
+                        <li class="nav-item nav-cart-item">
+                            <div class=""><a class="nav-link" href="{% url 'cart' %}"><img id="cart-icon" src="{% static 'images/cart1.png' %}"></a></div>
+                            <p id="cart-total">{{ cartItems }}</p>
+                    
+                        </li>
+                    </ul>
 
-  
-      {% block content %}
-
-      {% endblock content %}
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="row mb-5 ps-2">
-        <div class="col-md-3 mb-5">
-          <h2>About Us</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat quia, quas deleniti quod, doloribus quos corporis exercitationem ab expedita qui praesentium quisquam ipsum ea. Nostrum incidunt laborum eveniet error cum.</p>
-          <p><a href="#">Click here to learn more</a></p>
-        </div>
-
-        <div class="col-md-3 mb-5">
-          <h2>Contact &amp Address</h2>
-          <ul class="list-unstyled footer-link">
-            <li class="d-flex">
-              <span class="me-3">Address</span><span class="text-white">Dhaka, Bangladesh</span>
-            </li>
-
-            <li class="d-flex">
-              <span class="me-3">Phone</span><span class="text-white">+ 123654789</span>
-            </li>
-
-            <li class="d-flex">
-              <span class="me-3">Email</span><span class="text-white">ecom@gmail.com</span>
-            </li>
-
-          </ul>
+                {% comment %} </div> {% endcomment %}
+            </div>
 
         </div>
+    </nav>
 
-        <div class="col-md-3 mb-5">
-          <h2>Quick Links</h2>
-          <ul class="list-unstyled footer-link">
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Blogs</a></li>
-            <li><a href="#">Our Partners</a></li>
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">Contact Us</a></li>
-          </ul>
-        </div>
 
-        <div class="col-md-3">
-          <h2 class="ps-2">Our Social Media</h2>
-          <ul class="list-unstyled footer-link d-flex">
-            <li><a href="#"><span class="fab fa-facebook-f fa-2x p-2"></span></a></li>
-            <li><a href="#"><span class="fab fa-twitter fa-2x p-2"></span></a></li>
-            <li><a href="#"><span class="fab fa-instagram fa-2x p-2"></span></a></li>
-            <li><a href="#"><span class="fab fa-linkedin fa-2x p-2"></span></a></li>
-            <li><a href="#"><span class="fab fa-youtube fa-2x p-2"></span></a></li>
-          </ul>
-        </div>
-
-      </div>
-
-      <div class="row">
-        <div class="col-12 text md center text-left">
-
-        </div>
-      </div>
-
-    </div>
-  </footer>
-  
     
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
-</body>
+    {% block content %}
+
+    {% endblock content %}
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row mb-5 ps-2">
+                <div class="col-md-3 mb-5">
+                    <h2>About Us</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat quia, quas deleniti quod, doloribus quos corporis exercitationem ab expedita qui praesentium quisquam ipsum ea. Nostrum incidunt laborum eveniet error cum.</p>
+                    <p><a href="#">Click here to learn more</a></p>
+                </div>
+
+                <div class="col-md-3 mb-5">
+                    <h2>Contact &amp Address</h2>
+                    <ul class="list-unstyled footer-link">
+                        <li class="d-flex">
+                            <span class="me-3">Address</span><span class="text-white">Dhaka, Bangladesh</span>
+                        </li>
+
+                        <li class="d-flex">
+                            <span class="me-3">Phone</span><span class="text-white">+ 123654789</span>
+                        </li>
+
+                        <li class="d-flex">
+                            <span class="me-3">Email</span><span class="text-white">ecom@gmail.com</span>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="col-md-3 mb-5">
+                    <h2>Quick Links</h2>
+                    <ul class="list-unstyled footer-link">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blogs</a></li>
+                        <li><a href="#">Our Partners</a></li>
+                        <li><a href="#">Shop</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h2 class="ps-2">Our Social Media</h2>
+                    <ul class="list-unstyled footer-link d-flex">
+                        <li><a href="#"><span class="fab fa-facebook-f fa-2x p-2"></span></a></li>
+                        <li><a href="#"><span class="fab fa-twitter fa-2x p-2"></span></a></li>
+                        <li><a href="#"><span class="fab fa-instagram fa-2x p-2"></span></a></li>
+                        <li><a href="#"><span class="fab fa-linkedin fa-2x p-2"></span></a></li>
+                        <li><a href="#"><span class="fab fa-youtube fa-2x p-2"></span></a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12 text md center text-left">
+
+                </div>
+            </div>
+
+        </div>
+    </footer>
+    
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var userProfileLogo = document.getElementById('user-profile-logo');
+
+        // Get the user profile element
+        var userProfile = document.getElementById('user-profile');
+
+        // Add a click event listener to the user profile logo element
+        userProfileLogo.addEventListener('click', function() {
+        // Toggle the user profile active class
+        userProfile.classList.toggle('user-profile-active');
+        });
+
+        // if user clicks anywhere outside that userProfile 'user-profile' div that div will disappear
+        document.addEventListener('mouseup', function(e){
+            if(!userProfile.contains(e.target)){
+                userProfile.classList.remove('user-profile-active');
+            }
+        })
+
+    </script>
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+  </body>
 </html>

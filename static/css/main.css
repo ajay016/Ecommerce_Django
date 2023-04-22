@@ -242,10 +242,80 @@ h1,h2,h3,h4,h5,h6{
 }
 
 /* Cart */
+#user-profile-logo{
+	width: 45px;
+	height: 45px;
+	cursor: pointer;
+}
+
+.user-profile-view{
+	position: relative;
+}
+
+#user-profile{
+	list-style: none;
+	position: absolute;
+	top: 54px;
+	width: 170px;
+	left: -60px;
+	background-color: #f1d5c5;
+	border-radius: 20px;
+	visibility: hidden;
+	opacity: 0;
+	z-index: 99999999999999999;
+	/* transition: 0.5s; */
+	transition: visibility 0s linear 800ms, opacity 400ms;
+	/* display: none; */
+	/* opacity: 0.8; */
+}
+
+#user-profile.user-profile-active{
+	opacity: 1;
+	visibility: visible;
+	transition: visibility 0s linear 0s, opacity 400ms;
+	/* z-index: 99999999999999999; */
+}
+
+/* #user-profile::before{
+	content: '';
+	height: 20px;
+	width: 20px;
+	position: absolute;
+	top: -15px;
+	background-color: #f1d5c5;
+	transform: rotate(45deg);
+	left: 80px
+
+} */
+
+.user-profile-list a{
+	display: block;
+	text-decoration: none;
+	width: 100%;
+	font-size: 16px;
+	color: #000000;
+}
+
+.user-profile-list:hover{
+	background-color: #f1b897;
+}
+
+/* this works */
+/* .user-profile-view:hover > #user-profile{
+	display: initial;
+} */
+
+/* .user-profile-inactive{
+	visibility: hidden;
+} */
+
+.nav-cart-item{
+	position: relative;
+}
 
 #cart-total{
 	display: inline-block;
-    position: relative;
+    position: absolute;
 	text-align: center;
 	color:#fff;
 	background-color: rgb(119, 100, 100);
@@ -253,7 +323,7 @@ h1,h2,h3,h4,h5,h6{
 	height: 20px;
 	border-radius: 50%;
 	font-size: 12px;
-    left: -42px;
+    right: 25px;
     top: 2px;
     
 }
@@ -567,6 +637,31 @@ color: #ffffff;
 	border-radius: 20px;
 }
 
+.login-form-div{
+	position: relative;
+}
+
+#error-messages{
+	/* display: flex;
+	align-items: center;
+	justify-content: center; */
+	height: 60px;
+	background-color: #e2eaec;
+	border-radius: 20px;
+	color: red;
+	opacity: 0.7;
+	/* display: block; */
+	/* line-height: 3; */
+}
+
+.error-messages-para{
+	display: none !important;
+}
+
+.error-messages-para-show{
+	display: block !important;
+}
+
 .login-page-photo{
 	/* border-radius: 20px; */
 	border-top-left-radius: 20px;
@@ -580,8 +675,13 @@ color: #ffffff;
 }
 
 .form-control:focus {
-	border-color: #e0652c;
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+	border-color: #309730;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb(40, 141, 26);
+}
+
+.form-control-error{
+	border-color: #ff0000;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb(255, 0, 0);
 }
 
 .create-account-btn{

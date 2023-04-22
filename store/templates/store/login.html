@@ -16,22 +16,24 @@
                     <img class="login-page-logo" src="{% static 'images/ecom-logo.png' %}" alt="">
                     <h2>Login</h2>
 
-                    <form action="">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+
                         <div class="form-row">
                             <div class="col-lg-7">
-                                <input type="email" placeholder="Email" class="form-control">
+                                <input type="email" placeholder="Email" name="email" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col-lg-7">
-                                <input type="password" placeholder="Password" class="form-control">
+                                <input type="password" placeholder="Password" name="password" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col-lg-7">
-                                <button type="button" class="btn btn-checkout signup-btn">Login</button>
+                                <button type="submit" class="btn btn-checkout signup-btn">Login</button>
                             </div>
                         </div>
                         <div class="col-lg-7">
@@ -51,5 +53,27 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        {% comment %} // International telephone format
+        // $("#phone").intlTelInput();
+        // get the country data from the plugin
+        var countryData = window.intlTelInputGlobals.getCountryData(),
+        input = document.querySelector("#phone")
+
+        // init plugin
+        var iti = window.intlTelInput(input, {
+        hiddenInput: "full_phone",
+        utilsScript: "https://intl-tel-input.com/node_modules/intl-tel-input/build/js/utils.js?1549804213570" // just for formatting/placeholders etc
+        }); {% endcomment %}
+
+
+        var formFields = document.getElementsByTagName('input')
+
+        console.log('1: ', formFields[1])
+        console.log('2: ', formFields[2])
+        
+
+    </script>
 
 {% endblock content %}

@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout
 import datetime
 import json
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
+from .forms import UserRegistrationForm
+from django.views.decorators.csrf import csrf_protect, requires_csrf_token
 
 def store(request):
     
@@ -85,6 +88,11 @@ def productDetail(request, id):
     order = data['order']
     cartItems = data['cartItems']
     product = Product.objects.get(id=id)
+
+    if request.user.is_authenticated:
+        print('Current User: ', request.user)
+    else:
+        print('No authenticated user')
     
     print('items:', items)
     product_quantity = 1
@@ -117,15 +125,106 @@ def checkout(request):
     context = {'items': items, 'order': order, 'cartItems': cartItems, 'user': user}
     return render(request, 'store/checkout.html', context)
 
-def login(request):
 
+def loginUser(request):
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        print('Email: ', email)
+        print('Password: ', password)
+
+        user = authenticate(request, email=email, password=password)
+
+        if user is not None:
+            login(request, user)
+            next_url = request.GET.get('next', '/')
+            print('User logged in')
+
+            return redirect(next_url)
+        
+        # if user is None:
+        #     print('no user found')
+        
+        else:
+            error_message = 'Invalid username or password' 
+            print('User not logged in')
+
+            return render(request, 'store/login.html', {'error_message': error_message})
 
     return render(request, 'store/login.html')
 
+def logoutUser(request):
+    logout(request)
+
+    return redirect('login')
+
+@requires_csrf_token
 def signup(request):
+    
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
 
+        if form.is_valid():
+            print('Form saved')
+            form.save()
 
-    return render(request, 'store/signup.html')
+            JsonResponse({'success': True})
+        
+        # else:
+        #     errors = {}
+        #     for field, error in form.errors.items():
+        #         errors[field] = error[0]
+        #     print(errors)
+        #     # return JsonResponse({'errors': errors})
+        
+    else:
+        print('from not saved')
+        form = UserRegistrationForm()
+        errors = {}
+
+    # if form.errors:
+    #     errors = {}
+    #     for field, error_list in form.errors.items():
+    #         errors[field] = [error for error in error_list]
+    #     errors['non_field_errors'] = [error for error in form.non_field_errors()]
+    #     # Render the template with the errors dictionary
+    #     for error in errors:
+    #         print(error)
+    #         print(errors[error])
+
+    context = {'form': form, 'errors': errors}
+
+    return render(request, 'store/signup.html', context)
+
+@requires_csrf_token
+def signup_form(request):
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        form = UserRegistrationForm(data)
+
+        if form.is_valid():
+            print('Form saved successfully')
+            form.save()
+
+            return JsonResponse({'success': True})
+        
+        else:
+            errors = {}
+
+            for field, error in form.errors.items():
+                errors[field] = error[0]
+            print(errors)
+
+            return JsonResponse({'errors': errors})
+    
+    else:
+
+        # Return a 405 Method Not Allowed error for non-POST requests
+        return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+
 
 
 def updateItem(request):

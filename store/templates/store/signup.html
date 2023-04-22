@@ -11,12 +11,52 @@
 
             <div class="login-form-div col-lg-7 d-flex align-items-center">
 
+                {% comment %} <div class="error-messages">
+                    <p class="error-messages-para"><span class="error-messages-text">Email already exist!</span></p>
+                </div> {% endcomment %}
+
                 <div class="col-12 my-auto">
 
                     <img class="login-page-logo" src="{% static 'images/ecom-logo.png' %}" alt="">
-                    <h2>Signup</h2>
 
-                    <form action="" class="billingform">
+                    <div class="row">
+                        <div class="col-lg-9 col-12 d-flex">
+                            
+                            <div class="col-4">
+                                <h2>Signup</h2>
+                            </div>
+                            <div id="error-messages" class="error-messages-para">
+                                <p class="py-3 px-4 mb-0"><span id="error-messages-text"></span></p>
+                                
+                                {% comment %} {% for field, errors in form.errors.items %}
+                                    <ul>
+                                        {% for error in errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endfor %} {% endcomment %}
+
+                                {% comment %} {% if form.errors.email %}
+                                    <ul>
+                                        {% for error in form.errors.email %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %} {% endcomment %}
+
+                                {% comment %} {% if form.errors.password %}
+                                    <ul>
+                                        {{ form.errors.password }}
+                                    </ul>
+                                {% endif %} {% endcomment %}
+
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <form method="POST" action="" id="registration-form" class="billingform">
+                        {% csrf_token %}
 
                         <div class="form-row">
                             <div class="row">
@@ -24,8 +64,12 @@
                                     <div class="col-4">
                                         <label for="" class="mt-2">First Name</label>
                                     </div>
+
+                                    <div class="form-data-input-div col-8">
+                                        {{ form.first_name }}
+                                    </div>
                                     
-                                    <input type="email" placeholder="First Name" class="form-control">
+                                    <!--<input type="text" placeholder="First Name" class="form-control" required value="{{ form.first_name.value }}" name="{{ form.first_name.name }}">-->
                                 </div>
                             </div>
                             
@@ -36,9 +80,10 @@
                                 <div class="col-lg-9 d-flex">
                                     <div class="col-4">
                                         <label for="" class="mt-2">Last Name</label>
-                                    </div>
+                                    </div>                                  
+                                    {{ form.last_name }}
                                     
-                                    <input type="email" placeholder="Last Name" class="form-control">
+                                    <!--<input type="text" placeholder="Last Name" class="form-control" required value="{{ form.last_name.value }}" name="{{ form.last_name.name }}">-->
                                 </div>
                             </div>
                         </div>
@@ -47,10 +92,10 @@
                             <div class="row">
                                 <div class="col-lg-9 d-flex">
                                     <div class="col-4">
-                                        <label for="" class="mt-2">Telephone</label>
+                                        <label for="" class="mt-2">Email</label>
                                     </div>
-                                    
-                                    <input type="tel" placeholder="Phone" value="+1" id="phone" class="form-control">
+                                    {{ form.email }}
+                                    <!--<input type="email" placeholder="Email" class="form-control" required value="{{ form.email.value }}" name="{{ form.email.name }}">-->
                                 </div>
                             </div>
                         </div>
@@ -60,10 +105,12 @@
                             <div class="row">
                                 <div class="col-lg-9 d-flex">
                                     <div class="col-4">
-                                        <label for="" class="mt-2">Email</label>
+                                        <label for="" class="mt-2">Phone</label>
                                     </div>
+                                    {{ form.phone }}
                                     
-                                    <input type="email" placeholder="Email" class="form-control">
+                                    <!--<input type="tel" placeholder="Phone" value="+1" id="phone" class="form-control" required value="{{ form.phone.value }}" name="{{ form.phone.name }}">-->
+                                    
                                 </div>
                             </div>
                         </div>
@@ -74,8 +121,10 @@
                                     <div class="col-4">
                                         <label for="" class="mt-2">Password</label>
                                     </div>
+                                    {{ form.password }}
                                     
-                                    <input type="password" placeholder="Password" class="form-control">
+                                    
+                                    <!--<input type="password" placeholder="Password" class="form-control" required name="{{ form.password.name }}">-->
                                 </div>
                             </div>
                         </div>
@@ -86,15 +135,15 @@
                                     <div class="col-4">
                                         <label for="" class="mt-2">Confirm password</label>
                                     </div>
-                                    
-                                    <input type="password" placeholder="Confirm Password" class="form-control">
+                                    {{ form.confirm_password }}
+                                    <!--<input type="password" placeholder="Confirm Password" class="form-control" required name="{{ form.confirm_password.name }}">-->
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col-lg-9">
-                                <button type="button" class="btn btn-checkout signup-btn">Signup</button>
+                                <button type="submit" class="btn btn-checkout signup-btn">Signup</button>
                             </div>
                         </div>
                         <div class="col-lg-9">
@@ -118,7 +167,7 @@
 
 
     <script type="text/javascript">
-        // International telephone format
+        {% comment %} // International telephone format
         // $("#phone").intlTelInput();
         // get the country data from the plugin
         var countryData = window.intlTelInputGlobals.getCountryData(),
@@ -128,7 +177,110 @@
         var iti = window.intlTelInput(input, {
         hiddenInput: "full_phone",
         utilsScript: "https://intl-tel-input.com/node_modules/intl-tel-input/build/js/utils.js?1549804213570" // just for formatting/placeholders etc
-        });
+        }); {% endcomment %}
+
+
+        var formFields = document.getElementsByTagName('input')
+
+        console.log('1: ', formFields[2])
+        console.log('2: ', formFields[3])
+        console.log('3: ', formFields[4])
+        console.log('4: ', formFields[5])
+        console.log('5: ', formFields[6])
+        console.log('6: ', formFields[7])
+        console.log('7: ', formFields[8])
+
+        formFields[2].placeholder = 'First Name'
+        formFields[3].placeholder = 'Last Name'
+        formFields[4].placeholder = 'youremail@domain.com'
+        formFields[5].placeholder = 'Phone'
+        formFields[6].placeholder = 'Password'
+        formFields[7].placeholder = 'Confirm Password'
+
+        for(var formField in formFields){
+            formFields[formField].className += ' form-control'
+        }
+
+        var errors = '{{ errors.email }}'
+        var errors_pass = '{{ errors.confirm_password }}'
+        var allErrors = '{{ errors }}'
+        console.log('Email errors:', errors)
+        console.log('Password errors:', errors_pass)
+        console.log('All errors:', allErrors)
+
+        {% comment %} if(errors !== undefined){
+            document.getElementById('id_confirm_password').classList.add('form-control-error')
+        }
+
+        if(Object.keys(allErrors).length > 2){
+            document.getElementById('error-messages').classList.remove('error-messages-para')
+            document.getElementById('error-messages').classList.add('error-messages-para-show')
+            console.log('Object.keys(allErrors).length:', Object.keys(allErrors).length)
+            //document.getElementById('error-messages-text').innerText = errors
+
+            if('email' in allErrors){
+                document.getElementById('error-messages-text').innerText = errors
+                document.getElementById('id_email').classList.add('form-control-error')
+            }
+            else if('password' in allErrors || 'confirm_password' in allErrors){
+                document.getElementById('error-messages-text').innerText = errors_pass
+                document.getElementById('id_confirm_password').classList.add('form-control-error')
+            }
+        } {% endcomment %}
+
+        var signupForm = document.getElementById('registration-form')
+        signupForm.addEventListener('submit', (e) =>{
+            e.preventDefault()
+
+            var formData = new FormData(signupForm);
+            var serializedData = {}
+
+            for(var[key, value] of formData){
+                serializedData[key] = value
+            }
+
+            var url = '/signup_form/'
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-CSRFToken': csrftoken
+                },
+                body: JSON.stringify(serializedData)
+            })
+    
+            .then((response) =>{
+                return response.json()
+            })
+    
+            .then((data) =>{
+                console.log('Data:', data)
+                
+                if(data.success){
+                    console.log('Success')
+                    window.location.href = '/login/'
+                }
+
+                else if('email' in data.errors){
+                    document.getElementById('id_email').classList.add('form-control-error')
+                    document.getElementById('error-messages').classList.remove('error-messages-para')
+                    document.getElementById('error-messages').classList.add('error-messages-para-show')
+                    document.getElementById('error-messages-text').innerText = data.errors.email
+                    document.getElementById('id_confirm_password').classList.remove('form-control-error')
+                }
+
+                else if('confirm_password in data.errors'){
+                    document.getElementById('id_confirm_password').classList.add('form-control-error')
+                    document.getElementById('error-messages').classList.remove('error-messages-para')
+                    document.getElementById('error-messages').classList.add('error-messages-para-show')
+                    document.getElementById('error-messages-text').innerText = data.errors.confirm_password
+                    document.getElementById('id_email').classList.remove('form-control-error')
+                }
+            })
+        })
+
+
+        
 
     </script>
 
