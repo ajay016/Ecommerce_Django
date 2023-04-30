@@ -112,8 +112,13 @@
                             <li class="nav-item user-profile-view px-2 ms-auto">
                                 <img src="{% static 'images/user-profile-avatar6.png' %}" alt="" id="user-profile-logo">
                                 <ul id="user-profile" class="p-0">
-                                    <li class="user-profile-list px-2 py-3" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
-                                        <a href="#"><span><i class="fa-solid fa-pencil px-3" style="color: #ff6600;"></i>Edit User</span></a>
+                                    <li class="user-profile-list px-2 py-3 justify-content-center d-flex overflow-hidden" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+                                        <span class="px-3">Hi, {{ request.user.first_name }}</span>
+                                    </li>
+                                    <hr class="m-0">
+
+                                    <li class="user-profile-list px-2 py-3">
+                                        <a href="{% url 'update_profile' %}"><span><i class="fa-solid fa-pencil px-3" style="color: #ff6600;"></i>Profile</span></a>
                                     </li>
                                     <hr class="m-0"> 
 
@@ -127,12 +132,6 @@
                                     </li>
                                 </ul>
                             </li>
-
-                            <div class="submenu-wrap">
-                                <div class="submenu">
-                                    <div class="user-info"></div>
-                                </div>
-                            </div>
                         {% else %}
                             <li class="nav-item"><a class="nav-link login-link" href="{% url 'login' %}">Login</a></li>
                         {% endif %}
@@ -227,14 +226,19 @@
 
         // Add a click event listener to the user profile logo element
         userProfileLogo.addEventListener('click', function() {
-        // Toggle the user profile active class
-        userProfile.classList.toggle('user-profile-active');
+
+            // Check if user profile is already active
+            console.log('userProfileLogo clicked')
+            console.log("userProfile.classList.contains('user-profile-active'): " + userProfile.classList.contains('user-profile-active'));
+            
+            userProfile.classList.toggle('user-profile-active')
         });
 
         // if user clicks anywhere outside that userProfile 'user-profile' div that div will disappear
         document.addEventListener('mouseup', function(e){
-            if(!userProfile.contains(e.target)){
-                userProfile.classList.remove('user-profile-active');
+            if(!userProfile.contains(e.target) && e.target != userProfileLogo){
+                userProfile.classList.remove('user-profile-active')
+                console.log('removed')
             }
         })
 

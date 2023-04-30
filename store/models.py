@@ -70,6 +70,8 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField(max_length=255, unique=True)
     phone = models.CharField(max_length=30, blank=True, null=True)
+    CHOICES = [('A', 'Male'), ('B', 'Female')]
+    gender = models.CharField(max_length=1, choices=CHOICES, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
@@ -111,6 +113,29 @@ class User(AbstractBaseUser):
 
     def get_by_natural_key(self, email):
         return self.get(email=email)
+    
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
+    email = models.EmailField(max_length=255, unique=True)
+    phone = models.CharField(max_length=30, blank=True, null=True)
+    password = models.CharField(max_length=50, blank=True, null=True)
+    CHOICES = [('A', 'Male'), ('B', 'Female')]
+    gender = models.CharField(max_length=1, choices=CHOICES, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    street_address = models.CharField(max_length=255, blank=True, null=True)
+    state = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
+    zip = models.CharField(max_length=255, blank=True, null=True)
+    profile_pic = models.ImageField(default='../static/user-profile-avatar6.png', blank=True, null=True)
+
+    def __str__(self):
+        return self.first_name
+    
+    @property
+    def full_name(self):
+        return self.first_name + ' ' + self.last_name or ''
 
 class MainCategory(models.Model):
     name = models.CharField(max_length=200)
@@ -131,6 +156,12 @@ class SubCategory(models.Model):
 
     def __str__(self):
         return self.category.main_category.name + '--' + self.category.name + '--' + self.name or ''
+    
+    # def get_avatar(self):
+    #     # variable PATH_TO_DEFAULT_STATIC_IMAGE depends on the enviroment
+    #     # on development, it would be something like "localhost:8000/static/default_avatar.png"
+    #     # on production, it would be something like "https://BUCKET_NAME.s3.amazonaws.com/static/default_avatar.png"
+    #     return self.avatar if self.avatar else <PATH_TO_DEFAULT_STATIC_IMAGE>
 
 class Product(models.Model):
     

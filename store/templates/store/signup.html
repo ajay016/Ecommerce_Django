@@ -4,7 +4,15 @@
 {% block content %}
 
     <div class="container px-5 my-5">
-        <div class="row login-form-row">
+
+        <div id="registration-success" class="registration-success">
+            <img src="{% static 'images/tick.png' %}" alt="">
+            <h2>Registration Successful</h2>
+            <p>Please login with your credentials</p>
+        </div>
+
+        <div id="login-form-row" class="row login-form-row">
+
             <div class="col-lg-5 mt-0 ps-0">
                 <img class="login-page-photo" src="{% static 'images/login-photo.jpeg' %}" alt="">
             </div>
@@ -232,6 +240,7 @@
         signupForm.addEventListener('submit', (e) =>{
             e.preventDefault()
 
+            
             var formData = new FormData(signupForm);
             var serializedData = {}
 
@@ -258,7 +267,17 @@
                 
                 if(data.success){
                     console.log('Success')
-                    window.location.href = '/login/'
+
+                    //var formBlur = document.getElementsByClassName('login-form-row')
+                    //var registrationPopup = document.getElementsByClassName('registration-success')
+
+                    document.getElementById('login-form-row').classList.add('login-form-row-blur')
+                    document.getElementById('registration-success').classList.add('registration-success-show')
+
+                    setTimeout(function(){
+                        window.location.href = '/login/'
+                    }, 2000)
+
                 }
 
                 else if('email' in data.errors){
@@ -277,9 +296,8 @@
                     document.getElementById('id_email').classList.remove('form-control-error')
                 }
             })
+            
         })
-
-
         
 
     </script>

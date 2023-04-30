@@ -1,0 +1,257 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container px-5 my-4">
+        <div class="profile-card">
+            <form method="POST" action="" class="">
+                <div class="row">
+
+                    <div class="col-lg-4 col-12 d-flex justify-content-center mt-5">
+                        <div class="profile-photo-div col-12 d-flex justify-content-center" style="background-color: red;">
+                            <img src="{{ user.userprofile.profile_pic.url }}" alt="Profile Picture">
+                            {{ form.profile_pic }}
+                        </div>
+                    </div>
+        
+                    <div class="col-lg-8 col-12 py-5 ps-3 pe-5 my-auto">
+                        <div class="row py-3">
+                            <div class="col-6">
+                                <h3><span>Profile</span></h3>
+                            </div>
+
+                            <div class="col-6 d-flex justify-content-end py-1 pe-5">
+                                <button type="button" name="edit_profile" class="btn btn-primary"><span><i class="fa-solid fa-pencil px-2" style="color: #fff;"></i>Edit Profile</span></button>
+                            </div>
+                        </div>
+                        <div class="row">
+        
+                            <div class="profile-card-form col-lg-12 col-md-12 col-12 p-4">
+                                
+                                    <div class="row px-3">
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <label for="" class="form-label px-1 mt-3">First Name</label>
+                                            <!-- <input type="text" name="first_name" placeholder="First Name" class="form-control custom-profile-input"> -->
+                                            {{ form.first_name }}
+                                        </div>
+        
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <label for="" class="form-label px-1 mt-3">Last Name</label>
+                                            <!-- <input type="text" name="last_name" placeholder="First Name" class="form-control custom-profile-input"> -->
+                                            {{ form.last_name }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="row px-3">
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <label for="gender" class="form-label px-1 mt-3">Email</label>
+                                            <!-- <input type="email" name="email" placeholder="Email" class="form-control custom-profile-input"> -->
+                                            {{ form.email }}
+                                        </div>
+        
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <label for="gender" class="form-label px-1 mt-3">Phone</label>
+                                            <!-- <input type="text" name="phone" placeholder="Phone" class="form-control custom-profile-input"> -->
+                                            {{ form.phone }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="row px-3">
+                                        <!-- <div class="col-lg-12 col-md-12 col-12">
+                                            <p class="form-label px-1 mt-3 col-12">Gender</p>                                
+                                        </div> -->
+        
+                                        <div class="col-lg-6 col-12 gender-div">   <!-- Remove d-flex for only javascript -->
+        
+                                            <!-- Gender radio button: This code is used when the radio button is 'unchecked when one is checked' is designed using javascript.  Starts -->
+        
+                                            <p id="gender-para" class="form-label px-1 my-3 col-lg-12 col-12">Gender</p>
+                                            {{ form.gender }}
+        
+                                            <!-- Gender radio button: This code is used when the radio button is 'unchecked when one is checked' is designed using javascript.  ends -->
+        
+                                            <!-- Gender radio button: This code is used when the radio button is 'unchecked when one is checked' is designed using css and javascript.  Starts -->
+                                            <!-- <div id="gender-selection" class="col-6 gender-radio-div">
+                                                <label for="gender" class="gender-label" id="frist-label">
+                                                    <input type="radio" name="gender" id="male" class="gender-radio" value="Male" data-gender="Male">
+                                                    <span class="gender-span">Male</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-6 gender-radio-div">
+                                                <label for="gender" class="gender-label">
+                                                    <input type="radio" name="gender" id="female" class="gender-radio" value="Female" data-gender="Female">
+                                                    <span class="gender-span">Female</span>
+                                                </label>
+                                            </div> -->
+                                            <!-- Gender radio button: This code is used when the radio button is 'unchecked when one is checked' is designed using css and javascript.  ends -->
+                                            
+                                        </div>
+                                    </div>
+        
+                                    <div class="row px-3">
+                                        <div class="col-lg-12 col-md-12 col-12">
+                                            <label for="" class="form-label px-1 mt-3">Street Address</label>
+                                            <!-- <input type="text" name="stret_address" placeholder="Stret Address" class="form-control custom-profile-input"> -->
+                                            {{ form.street_address }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="row px-3">
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <label for="" class="form-label px-1 mt-3">State</label>
+                                            <!-- <input type="text" name="state" placeholder="State" class="form-control custom-profile-input"> -->
+                                            {{ form.state }}
+                                        </div>
+        
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <label for="" class="form-label px-1 mt-3">City</label>
+                                            <!-- <input type="text" name="city" placeholder="City" class="form-control custom-profile-input"> -->
+                                            {{ form.city }}
+                                        </div>
+        
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <label for="" class="form-label px-1 mt-3">Zip</label>
+                                            <!-- <input type="text" name="zip" placeholder="Zip" class="form-control custom-profile-input"> -->
+                                            {{ form.zip_code }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="mt-5">
+                                        <p class="mb-1"><span class="fw-bold">Change Password</span></p>
+                                    </div>
+        
+                                    <div class="row px-3">
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <label for="" class="form-label px-1 mt-3">Current password</label>
+                                            <!-- <input type="text" name="current_password" placeholder="Current password" class="form-control custom-profile-input"> -->
+                                            {{ form.current_password }}
+                                        </div>
+        
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <label for="" class="form-label px-1 mt-3">New password</label>
+                                            <!-- <input type="text" name="new_password" placeholder="New password" class="form-control custom-profile-input"> -->
+                                            {{ form.new_password }}
+                                        </div>
+        
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <label for="" class="form-label px-1 mt-3">Confirm new password</label>
+                                            <!-- <input type="text" name="confirm_new_password" placeholder="Confirm new password" class="form-control custom-profile-input"> -->
+                                            {{ form.confirm_new_password }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="d-flex justify-content-center col-12 py-5">
+                                        <button type="submit" id="profile-save-changes" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                
+                            </div>
+                        </div>
+                                                                
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+        
+    </div>
+
+    <script type="text/javascript">
+
+        var cnt = $("#id_gender").contents();
+        console.log('CCNNT', cnt)
+        $("#id_gender").replaceWith(cnt);
+
+        $('#id_gender_0').addClass('gender-radio')
+        $('#id_gender_1').addClass('gender-radio')
+
+        //$('label[for="id_gender_0"]').text('')
+        //$('label[for="id_gender_1"]').text('')
+        $('label[for="id_gender_0"]').contents().filter(function() {
+            return this.nodeType === 3;
+          }).remove();
+
+          $('label[for="id_gender_1"]').contents().filter(function() {
+            return this.nodeType === 3;
+          }).remove();
+
+          $('label[for="id_gender_0"]').prepend('<span>Male</span>')
+          $('label[for="id_gender_1"]').prepend('<span>Female</span>')
+
+        $('input[name="gender"]').each(function(){
+            console.log('this:', $(this))
+            var parentOfAllChildren = $(this).closest('label').parent()
+            var allChildren = $(this).closest('label').parent().contents()
+            //$(this).closest('label').find('div').remove();
+            console.log('allChildren:', allChildren)
+            //console.log('mainParent:', mainParent)
+            console.log('Removed div:', $(this).closest('label').parent())
+            parentOfAllChildren.replaceWith(allChildren)
+          });
+        
+        var radioButton = document.getElementsByClassName('gender-radio');
+        var radios = document.getElementsByName('gender');
+        var profileSaveChanges = document.getElementById('profile-save-changes')
+        var formFields = document.getElementsByTagName('input')
+        console.log('Radio:', radios)
+        console.log('radioButton', )
+
+        for(var formField in formFields){
+            console.log('formField:', formField)
+        }
+
+        document.getElementById('id_first_name').className = 'form-control'
+        document.getElementById('id_last_name').className = 'form-control'
+        document.getElementById('id_email').className = 'form-control'
+        document.getElementById('id_phone').className = 'form-control'
+        document.getElementById('id_street_address').className = 'form-control'
+        document.getElementById('id_state').className = 'form-control'
+        document.getElementById('id_city').className = 'form-control'
+        document.getElementById('id_zip_code').className = 'form-control'
+        document.getElementById('id_current_password').className = 'form-control'
+        document.getElementById('id_new_password').className = 'form-control'
+        document.getElementById('id_confirm_new_password').className = 'form-control'
+
+        console.log('formField[0]:', formFields[0])
+        
+
+        /* Gender radio button: This code is used when the radio button is 'unchecked when one is checked' is designed using javascript.  Starts */
+        for(var i = 0; i < radios.length; i++) {
+
+            // if the input is of type 'radio' and is checked grab the value
+            if (radios[i].type === 'radio' && radios[i].checked) {
+                // get value, set checked flag
+                value = radios[i].value;
+                console.log("Value:", value)     
+            }   
+
+        }
+
+        for(var i = 0; i < radioButton.length; i++){
+            console.log('Radio clicked')
+            radioButton[i].addEventListener('click', productSize)
+        }
+
+        var unselect = document.getElementById('gender-para')
+        console.log('unselect[0].nextSibling:', unselect.nextElementSibling.tagName)
+        console.log('unselect[0].nextSibling:', unselect.nextElementSibling.nextElementSibling.tagName)
+
+        function productSize(){
+
+            // Select the paragraph with id 'size-heading' that is the previous sibling of the labels
+            var unselect = document.getElementById('gender-para')
+            while (unselect = unselect.nextElementSibling){
+                if(unselect.tagName === 'LABEL'){
+                    unselect.classList.remove('gender-checked')
+                    console.log('unselect.tagName:', unselect.tagName)
+                }
+            }
+
+            this.parentElement.classList.toggle('gender-checked')
+            console.log(this.parentElement)
+        }
+        /* Gender radio button: This code is used when the radio button is 'unchecked when one is checked' is designed using javascript.  ends */
+
+    </script>
+
+{% endblock content %}

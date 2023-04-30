@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.urls import reverse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 import datetime
 import json
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, UserProfileUpdateForm
 from django.views.decorators.csrf import csrf_protect, requires_csrf_token
 
 def store(request):
@@ -128,6 +129,9 @@ def checkout(request):
 
 def loginUser(request):
 
+    if request.user.is_authenticated:
+        return redirect('store')
+
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -136,7 +140,7 @@ def loginUser(request):
         print('Password: ', password)
 
         user = authenticate(request, email=email, password=password)
-
+        print('user: ', user)
         if user is not None:
             login(request, user)
             next_url = request.GET.get('next', '/')
@@ -162,13 +166,26 @@ def logoutUser(request):
 
 @requires_csrf_token
 def signup(request):
+
+    # if request.user.is_authenticated:
+    #     return redirect('store')
     
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
 
         if form.is_valid():
             print('Form saved')
-            form.save()
+
+            user = form.save()
+
+            UserProfile.objects.create(
+                user=user,
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name'],
+                email=form.cleaned_data['email'],
+                phone=form.cleaned_data['phone'],
+                password=form.cleaned_data['password']
+                )
 
             JsonResponse({'success': True})
         
@@ -207,7 +224,19 @@ def signup_form(request):
 
         if form.is_valid():
             print('Form saved successfully')
-            form.save()
+
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user = form.save()
+
+            UserProfile.objects.create(
+                user=user,
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name'],
+                email=form.cleaned_data['email'],
+                phone=form.cleaned_data['phone'],
+                password=form.cleaned_data['password']
+                )
 
             return JsonResponse({'success': True})
         
@@ -224,7 +253,19 @@ def signup_form(request):
 
         # Return a 405 Method Not Allowed error for non-POST requests
         return JsonResponse({'error': 'Method Not Allowed'}, status=405)
+    
 
+def updateProfile(request):
+
+    if request.method == 'POST':
+        form = UserProfileUpdateForm(request.POST)
+
+    else:
+        form = UserProfileUpdateForm()
+
+    context ={'form': form}
+
+    return render(request, 'store/update_profile.html', context)
 
 
 def updateItem(request):

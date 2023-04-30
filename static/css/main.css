@@ -241,7 +241,7 @@ h1,h2,h3,h4,h5,h6{
 	
 }
 
-/* Cart */
+
 #user-profile-logo{
 	width: 45px;
 	height: 45px;
@@ -263,30 +263,139 @@ h1,h2,h3,h4,h5,h6{
 	visibility: hidden;
 	opacity: 0;
 	z-index: 99999999999999999;
-	/* transition: 0.5s; */
 	transition: visibility 0s linear 800ms, opacity 400ms;
-	/* display: none; */
-	/* opacity: 0.8; */
 }
 
 #user-profile.user-profile-active{
 	opacity: 1;
 	visibility: visible;
-	transition: visibility 0s linear 0s, opacity 400ms;
-	/* z-index: 99999999999999999; */
+	transition: visibility 0s linear 0s, opacity 400ms;	
 }
 
-/* #user-profile::before{
-	content: '';
-	height: 20px;
-	width: 20px;
-	position: absolute;
-	top: -15px;
-	background-color: #f1d5c5;
-	transform: rotate(45deg);
-	left: 80px
+/* Profile Pgae */
 
-} */
+.profile-card{
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+	border-radius: 20px;
+}
+
+.profile-card-form .form-control{
+	border-width: 0 0 2px 0;
+	border-color: #746097;
+	border-radius: 0;
+}
+
+.profile-card-form .form-control:focus{
+	outline: none !important;
+	/* border: #719ECE; */
+	box-shadow: 0 4px 2px -2px gray;
+	border-width: 0 0 2px 0 !important;
+	border-color: #309730 !important;
+	border-radius: 0;
+}
+
+.profile-photo-div{
+	position: relative;
+	/* padding: 25px 50px; */
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.profile-photo-div img{
+	border-radius: inherit;
+	width: 100%;
+}
+
+.profile-photo-div input{
+	position: absolute;
+	bottom: 0;
+	outline: none;
+	/* color: transparent; */
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px 75px;
+	margin-left: 24px;
+	cursor: pointer;
+	transition: 0.5s;
+	background-color: #5e5c61;
+	opacity: 0.5;
+}
+
+.profile-photo-div input::-webkit-file-upload-button{
+	visibility: hidden;
+}
+
+.profile-photo-div input::before{
+	justify-content: center;
+	display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+	font: var(--fa-font-solid);
+    content: "\f083";
+	color: #ffffff;
+	font-size: 30px;
+}
+
+.profile-photo-div input::after{
+	content: "Update";
+	color: white;
+	position: absolute;
+	top: 50px;
+}
+
+.profile-photo-div input:hover{
+	opacity: 0.8;
+}
+
+/* Gender radio button */
+
+/* Gender radio button: This code is used when the radio button is 'unchecked when one is checked' is designed using javascript.  Starts */
+.gender-div label {
+	position: relative;
+	height: 25px;
+	width: 25px;
+	margin: 0 30px 10px 0;
+	vertical-align: middle;
+	margin-right: 40%;
+	border: 1px solid rgb(235, 164, 117);
+	border-radius: 50%;
+	text-align: center;
+	transition: 0.3s;
+}
+
+.gender-div label span{
+	position: absolute;
+	left: 45px;
+	top: 0;
+}
+
+/* Gender radio button: This code is used when the radio button is 'unchecked when one is checked' is designed using javascript.  ends */
+
+.gender-checked {
+	border-color: rgb(255, 108, 50);
+	background-color: rgb(255, 108, 50);
+	color: rgb(0, 0, 0);
+}
+
+.gender-div label:hover {
+	border-color: rgb(255, 108, 50);
+	background-color: rgb(255, 108, 50);
+	color: rgb(0, 0, 0);
+	cursor: pointer;
+}
+
+.gender-div input{
+	display: none;
+}
+
+.gender-radio-div{
+	position: relative;
+}
+
+
+/* Cart */
 
 .user-profile-list a{
 	display: block;
@@ -635,6 +744,7 @@ color: #ffffff;
 
 	box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
 	border-radius: 20px;
+	transition: transform 0.4s, top 0.4s;
 }
 
 .login-form-div{
@@ -733,6 +843,59 @@ color: #ffffff;
 	background: linear-gradient(to right, #5D26C1, #a17fe0, #59C173); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	color: white !important;
 }
+
+.registration-success{
+	position: absolute;
+	width: 400px;
+	background-color: rgb(255, 182, 47);
+	border-radius: 20px;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0.1);
+	text-align: center;
+	padding: 0 30px 30px;
+	/* border: 5px solid rgb(56, 182, 31); */
+	z-index: 999;
+	visibility: hidden;
+	transition: transform 0.4s, top 0.4s;
+}
+
+.registration-success-show{
+	visibility: visible;
+	top: 50%;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.registration-success img{
+	width: 100px;
+	margin-top: -50px;
+	border-radius: 50%;
+	box-shadow: 0 2px 2px rgba(85, 85, 85, 0.8);
+}
+
+.login-form-row-blur{
+	opacity: 0.4;
+}
+
+.registration-success h2{
+	font-size: 25px;
+	font-weight: 500;
+	margin: 10px 0 10px;
+	color: rgb(0, 0, 0);
+}
+
+.registration-success p{
+	color: rgb(0, 0, 0);
+}
+
+/* .registration-popup{
+	position: absolute;
+	width: 400px;
+	background-color: white;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+} */
 
 /* Login and Signup page ends */
 
